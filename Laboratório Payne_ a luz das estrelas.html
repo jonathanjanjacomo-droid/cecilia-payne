@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratório Payne: a luz das estrelas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e6eae4; --bg2:#d9dfd8; --panel:#f3f5f0; --card:#fbfcf9; --ink:#18212f; --muted:#5a6473; --line:#c3cbc4;
+  --brass:#a3741a; --brass-ink:#fffaf0; --cyan:#23527c; --good:#2d7445; --warn:#9a6410; --bad:#a3392b;
+  --shadow:0 1px 0 rgba(20,30,40,.06),0 10px 30px -18px rgba(20,30,40,.35);
+  --serif:"Spectral",Georgia,"Times New Roman",serif;
+  --sans:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a1322; --bg2:#0e1a2e; --panel:#111e34; --card:#15243e; --ink:#e8e6dc; --muted:#9aa6ba; --line:#263753;
+    --brass:#dcab4c; --brass-ink:#1b1305; --cyan:#8dbbe6; --good:#72c58e; --warn:#e3b45b; --bad:#ec7d69;
+    --shadow:0 1px 0 rgba(0,0,0,.25),0 14px 34px -18px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a1322; --bg2:#0e1a2e; --panel:#111e34; --card:#15243e; --ink:#e8e6dc; --muted:#9aa6ba; --line:#263753;
+  --brass:#dcab4c; --brass-ink:#1b1305; --cyan:#8dbbe6; --good:#72c58e; --warn:#e3b45b; --bad:#ec7d69;
+  --shadow:0 1px 0 rgba(0,0,0,.25),0 14px 34px -18px rgba(0,0,0,.6);
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;font-variant-numeric:tabular-nums}
+img,svg,canvas{max-width:100%}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0 0 .4em}
+h2{font-size:clamp(1.7rem,3.6vw,2.4rem)}
+h3{font-size:1.35rem}
+h4{font-size:1.1rem}
+p{margin:0 0 .7em}
+small,.small{font-size:.86rem;color:var(--muted)}
+a{color:var(--cyan)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px);top:0}
+.top-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.brand-mark{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 200deg,#6a3df0,#2f7ff0,#2fd0a0,#e8e23a,#f39a2a,#e8413a,#6a3df0);box-shadow:inset 0 0 0 7px var(--bg)}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav.tabs button{border:1px solid transparent;background:none;padding:7px 12px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:700;font-size:.92rem}
+nav.tabs button:hover{color:var(--ink);border-color:var(--line)}
+nav.tabs button.on{background:var(--ink);color:var(--bg)}
+nav.tabs button .ck{color:var(--good);margin-left:4px}
+nav.tabs button.on .ck{color:inherit}
+.theme-btn{border:1px solid var(--line);background:var(--card);border-radius:999px;width:36px;height:36px;cursor:pointer}
+
+main{max-width:1240px;margin:0 auto;padding:22px 18px 80px}
+section.tab>*+*{margin-top:22px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.quiet{background:var(--panel);border:1px dashed var(--line);border-radius:12px;padding:14px 16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.brass{background:var(--brass);border-color:var(--brass);color:var(--brass-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+@media (max-width:860px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.9rem);letter-spacing:-.01em;margin-bottom:.25em}
+.hero .lede{font-family:var(--serif);font-size:1.25rem;color:var(--muted);max-width:34ch}
+.plate{background:#05070d;border-radius:12px;padding:14px;box-shadow:var(--shadow);border:1px solid #1b2436}
+.plate canvas{display:block;width:100%;height:120px;border-radius:4px;cursor:crosshair}
+.plate figcaption{color:#aab4c8;font-size:.85rem;margin-top:8px}
+
+.letter{font-family:var(--serif);font-size:1.12rem;line-height:1.65;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--brass);border-radius:6px 14px 14px 6px;padding:22px 26px;box-shadow:var(--shadow);max-width:780px}
+.letter .sig{font-style:italic;text-align:right;margin:0}
+.letter .meta{font-family:var(--sans);font-size:.85rem;color:var(--muted);margin-bottom:10px}
+.timeline{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.timeline li{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:baseline}
+.timeline b{font-family:var(--serif);color:var(--brass);font-size:1.15rem}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;counter-reset:f;list-style:none;margin:0;padding:0}
+@media (max-width:760px){.flow{grid-template-columns:1fr 1fr}}
+.flow li{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.92rem}
+.flow li b{display:block;font-family:var(--serif);font-size:1.05rem}
+.flow li::before{counter-increment:f;content:counter(f);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:700;font-size:.8rem;margin-bottom:6px}
+.case-card h3{margin-top:6px}
+.case-card .n{font-family:var(--serif);font-size:2.4rem;color:var(--brass);line-height:1}
+
+/* activity header + steps */
+.act-head{display:grid;gap:12px}
+.act-head .kicker{color:var(--brass);font-family:var(--serif);font-style:italic;font-size:1.1rem}
+ol.steps{display:flex;gap:6px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+ol.steps li button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px 6px 6px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:.9rem}
+ol.steps li button span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--bg2);font-weight:700;font-size:.8rem}
+ol.steps li.done button span{background:var(--good);color:#fff}
+ol.steps li.lock button{opacity:.5}
+.sec-title{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+.sec-title .num{font-family:var(--serif);font-size:1.6rem;color:var(--brass)}
+
+/* instrument */
+.instrument{background:#05070d;color:#dfe5f2;border-radius:12px;border:1px solid #1d2740;overflow:hidden}
+.instrument .tb{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 12px;border-bottom:1px solid #1a2238;background:#0a0f1d;font-size:.88rem}
+.instrument button{background:#141c31;border:1px solid #2a3654;color:#dfe5f2;border-radius:8px;padding:5px 10px;cursor:pointer;font-weight:700}
+.instrument button:hover{border-color:#5c6d96}
+.instrument button.on{background:#e3c06a;color:#1a1204;border-color:#e3c06a}
+.instrument input[type=number]{width:74px;background:#0f1628;border:1px solid #2a3654;border-radius:6px;padding:4px 6px;color:#fff}
+.instrument input[type=range]{accent-color:#e3c06a;width:110px;vertical-align:middle}
+.instrument input[type=checkbox]{accent-color:#e3c06a}
+.instrument .seg{display:inline-flex;border:1px solid #2a3654;border-radius:9px;overflow:hidden}
+.instrument .seg button{border:0;border-radius:0}
+.instrument .tb-g{display:inline-flex;gap:4px}
+.instrument label{display:inline-flex;align-items:center;gap:6px;color:#b9c3d8}
+.instrument .cv-wrap{position:relative;width:100%}
+.instrument canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+.instrument .readout{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid #1a2238;font-size:.9rem;color:#f2dfa8;min-height:38px}
+.instrument .readout .hint{color:#8d98b2}
+
+.lab{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+@media (max-width:980px){.lab{grid-template-columns:1fr}}
+.catalog .cat-list{display:grid;gap:8px}
+.cat-item{display:grid;grid-template-columns:42px 1fr;gap:4px 10px;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 10px;cursor:pointer;width:100%}
+.cat-item:hover{border-color:var(--ink)}
+.cat-item.on{border-color:var(--brass);box-shadow:inset 0 0 0 1px var(--brass);background:var(--card)}
+.cat-item .sym{grid-row:span 2;display:grid;place-items:center;border-radius:8px;font-family:var(--serif);font-weight:700;font-size:1.15rem;background:var(--bg2)}
+.cat-item .nm{font-weight:700;font-size:.92rem;display:flex;justify-content:space-between;gap:6px}
+.cat-item .nm em{font-style:normal;color:var(--muted);font-weight:400;font-size:.8rem}
+.cat-item canvas{width:100%;height:16px;border-radius:3px;display:block;background:#000}
+.cat-item .wls{grid-column:1/-1;font-size:.78rem;color:var(--muted)}
+.cat-item.locked{opacity:.55;cursor:not-allowed}
+.cmp-list label{display:flex;gap:8px;align-items:center;font-size:.92rem;margin:4px 0}
+
+table.marks{width:100%;border-collapse:collapse;font-size:.93rem}
+table.marks th,table.marks td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+table.marks th{font-weight:700;color:var(--muted);font-size:.82rem}
+table.marks select{max-width:190px;padding:3px 4px;border-radius:6px;border:1px solid var(--line);background:var(--panel)}
+table.marks .del{border:0;background:none;cursor:pointer;color:var(--bad);font-size:1rem}
+.empty{color:var(--muted);font-style:italic;padding:8px 0}
+.mark-add{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 10px;font-size:.92rem}
+.mark-add input{width:88px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.tablewrap{overflow-x:auto}
+
+details.howto{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+details.howto summary{cursor:pointer;font-weight:700}
+details.howto ul{margin:8px 0 0;padding-left:20px}
+
+/* form / evidence */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.93rem}
+.chip input{accent-color:var(--brass)}
+.chip:has(input:checked){border-color:var(--brass);background:color-mix(in srgb,var(--brass) 16%,var(--card))}
+textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel);resize:vertical;line-height:1.45}
+.field{display:grid;gap:6px;margin:12px 0}
+.field>span{font-weight:700}
+.ev-list{display:grid;gap:8px}
+.ev{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:.95rem}
+.ev input{accent-color:var(--brass);margin-top:3px;width:17px;height:17px}
+.ev:has(input:checked){border-color:var(--brass);background:color-mix(in srgb,var(--brass) 12%,var(--card))}
+.ev .src{display:block;font-size:.78rem;color:var(--muted)}
+.ev-group{font-weight:700;color:var(--muted);font-size:.85rem;margin:12px 0 2px}
+
+.fb{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fb li{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:10px 12px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
+.fb li::before{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font-weight:700;font-size:.85rem;color:#fff}
+.fb li.ok::before{content:"✓";background:var(--good)}
+.fb li.mid::before{content:"~";background:var(--warn)}
+.fb li.no::before{content:"✕";background:var(--bad)}
+.fb li.info::before{content:"i";background:var(--cyan);color:var(--bg)}
+.concept{border-left:6px solid var(--cyan)}
+.concept h4{margin-top:10px}
+.reflect .field>span{font-family:var(--serif);font-size:1.08rem;font-weight:600}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+.stat .ic{font-size:1.4rem}
+.stat b{display:block;font-family:var(--serif);font-size:1.15rem}
+
+.bars{display:grid;gap:6px;margin:10px 0}
+.bar{display:grid;grid-template-columns:110px 1fr 52px;gap:8px;align-items:center;font-size:.92rem}
+.bar i{display:block;height:16px;border-radius:4px;background:var(--brass)}
+
+/* act 2 */
+.stars{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:700px){.stars{grid-template-columns:repeat(3,1fr)}}
+.star-btn{border:1px solid var(--line);background:#05070d;color:#e6ebf5;border-radius:12px;padding:12px 6px 10px;cursor:pointer;text-align:center}
+.star-btn .glow{width:54px;height:54px;border-radius:50%;margin:0 auto 6px}
+.star-btn.on{outline:3px solid var(--brass);outline-offset:2px}
+.star-btn small{color:#98a3bb}
+.calc{display:grid;gap:10px}
+.formula{font-family:var(--serif);font-size:1.5rem;text-align:center;padding:10px;background:var(--panel);border-radius:10px;border:1px solid var(--line)}
+.formula small{display:block;font-family:var(--sans);font-size:.85rem}
+.calc-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.calc-row input{width:110px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.calc-row output{font-weight:700;font-size:1.05rem}
+.calc-steps{font-size:.9rem;color:var(--muted);min-height:1.4em}
+table.t2{width:100%;border-collapse:collapse;font-size:.95rem}
+table.t2 th,table.t2 td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.t2 th{color:var(--muted);font-size:.82rem}
+table.t2 input{width:96px;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.sw{display:inline-block;width:20px;height:20px;border-radius:50%;vertical-align:middle;box-shadow:0 0 10px currentColor}
+.rank{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rank select{padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel)}
+
+/* act 3 widgets */
+.kir svg,.atom svg{width:100%;height:auto;display:block}
+.kir-out{display:grid;gap:8px;margin-top:10px}
+.kir-out div{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;font-size:.9rem}
+.kir-out canvas{width:100%;height:30px;border-radius:4px;background:#000;display:block}
+.atom-btns{display:flex;flex-wrap:wrap;gap:6px}
+.atom-log{font-size:.9rem;margin:8px 0 0;padding-left:18px}
+.ph{stroke-dasharray:400;stroke-dashoffset:400;animation:draw .9s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.el-dot{transition:transform .8s ease}
+.notice{border-left:5px solid var(--brass)}
+.nb pre{white-space:pre-wrap;font-family:var(--sans);font-size:.95rem;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;max-height:70vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;z-index:50;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Laboratório Payne</div>
+    <nav class="tabs" aria-label="Seções">
+      <button data-tab="intro" class="on">Início</button>
+      <button data-tab="a1">Caso 1<span class="ck" data-ck="a1"></span></button>
+      <button data-tab="a2">Caso 2<span class="ck" data-ck="a2"></span></button>
+      <button data-tab="a3">Caso 3<span class="ck" data-ck="a3"></span></button>
+      <button data-tab="caderno">Caderno</button>
+    </nav>
+    <button class="theme-btn" id="themeBtn" title="Alternar tema claro/escuro" aria-label="Alternar tema">◐</button>
+  </div>
+</header>
+
+<main>
+<!-- ================= INTRO ================= -->
+<section class="tab" id="intro">
+  <div class="hero">
+    <div>
+      <h1>A luz que revela as estrelas</h1>
+      <p class="lede">Um laboratório virtual para descobrir do que são feitas as estrelas, quão quentes elas são e por que as nebulosas brilham.</p>
+      <div class="row" style="margin-top:16px">
+        <button class="btn brass" data-go="a1">Começar pelo Caso 1</button>
+        <button class="btn ghost" data-go="caderno">Abrir meu caderno</button>
+      </div>
+    </div>
+    <figure class="plate" style="margin:0">
+      <canvas id="heroPlate" aria-label="Faixa de espectro decorativa"></canvas>
+      <figcaption>Passe o dedo ou o cursor pela faixa: cada cor corresponde a um comprimento de onda.</figcaption>
+    </figure>
+  </div>
+
+  <div class="grid2">
+    <div class="letter">
+      <div class="meta">Carta fictícia, inspirada em fatos reais</div>
+      <p>Cambridge, Massachusetts, outono de 1924.</p>
+      <p>Caro assistente, nas gavetas deste observatório estão guardadas centenas de milhares de placas de vidro com fotografias da luz das estrelas. Cada placa é uma faixa de cores riscada por linhas finas. Acredito que essas linhas contêm a resposta para uma pergunta antiga: <em>do que são feitas as estrelas?</em></p>
+      <p>Preciso de alguém atento para medir, comparar e argumentar. Não aceite nada só porque eu disse: aceite o que as evidências mostrarem.</p>
+      <p class="sig">Cecilia H. Payne</p>
+    </div>
+    <div class="card">
+      <h3>Quem foi Cecilia Payne?</h3>
+      <ul class="timeline">
+        <li><b>1900</b><span>Nasce na Inglaterra.</span></li>
+        <li><b>1919</b><span>Assiste a uma palestra de Arthur Eddington e decide estudar astronomia.</span></li>
+        <li><b>1923</b><span>Muda-se para o Observatório de Harvard, nos EUA, onde as mulheres analisavam as placas fotográficas.</span></li>
+        <li><b>1925</b><span>Em sua tese, conclui que as estrelas são formadas principalmente por hidrogênio e hélio. Muitos não acreditaram.</span></li>
+        <li><b>1929</b><span>Outros astrônomos chegam à mesma conclusão. Ela estava certa.</span></li>
+        <li><b>1956</b><span>Torna-se a primeira mulher professora titular de Harvard.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card notice">
+    <h3>A história é o cenário. A investigação é sua.</h3>
+    <p>A carta e o papel de assistente são uma forma de situar você em um momento real da ciência. Os dados que você vai analisar foram preparados para este laboratório, e as conclusões precisam vir das suas medições, não da história.</p>
+  </div>
+
+  <div>
+    <h3>Como cada caso funciona</h3>
+    <ol class="flow">
+      <li><b>Problema</b>Uma pergunta e uma placa para analisar.</li>
+      <li><b>Investigação</b>Instrumentos para medir e comparar.</li>
+      <li><b>Hipótese</b>Sua conclusão e as evidências que a sustentam.</li>
+      <li><b>Retorno</b>Pistas sobre o que conferir de novo.</li>
+      <li><b>Reflexão</b>Outras explicações e próximos dados.</li>
+    </ol>
+  </div>
+
+  <div class="grid3">
+    <div class="card case-card"><div class="n">1</div><h3>Do que é feita esta estrela?</h3><p class="small">Espectro de absorção, catálogo de elementos, sobreposição de linhas.</p><button class="btn" data-go="a1">Abrir caso</button></div>
+    <div class="card case-card"><div class="n">2</div><h3>Qual é a temperatura da estrela?</h3><p class="small">Espectros contínuos, pico de emissão e lei de Wien.</p><button class="btn" data-go="a2">Abrir caso</button></div>
+    <div class="card case-card"><div class="n">3</div><h3>O mistério da nebulosa</h3><p class="small">Espectro de emissão, linhas sem explicação e a origem das linhas.</p><button class="btn" data-go="a3">Abrir caso</button></div>
+  </div>
+</section>
+
+<!-- ================= ACT 1 ================= -->
+<section class="tab" id="a1" hidden>
+  <div class="act-head">
+    <div class="kicker">Caso 1</div>
+    <h2>Do que é feita esta estrela?</h2>
+    <ol class="steps" data-steps="a1"></ol>
+  </div>
+
+  <div id="a1-p" class="letter">
+    <div class="meta">Problema</div>
+    <p>Esta é a placa HD-1924 de uma estrela amarelada. A luz da estrela passou por um prisma e se abriu em cores. Algumas cores <em>faltam</em>: aparecem como linhas escuras.</p>
+    <p>No laboratório, cada elemento químico aquecido emite luz apenas em certos comprimentos de onda. Descubra quais elementos estão na atmosfera desta estrela e convença-me com evidências.</p>
+    <p class="sig">C. H. P.</p>
+  </div>
+
+  <div id="a1-i">
+    <div class="sec-title"><span class="num">2</span><h3>Investigação</h3></div>
+    <details class="howto" style="margin-bottom:12px"><summary>Como usar o espectrômetro</summary>
+      <ul>
+        <li>No modo <b>Marcar linhas</b>, clique sobre uma linha escura para registrá-la. O instrumento ajusta a marca ao centro da linha.</li>
+        <li>No modo <b>Mover / zoom</b>, arraste para deslocar; use a roda do mouse, um duplo clique ou os botões ＋ e － para ampliar.</li>
+        <li>Clique em um elemento do catálogo para colocar o espectro dele embaixo da placa. Marque <b>Projetar linhas</b> para sobrepor as linhas do elemento à placa.</li>
+        <li>Na tabela, associe cada linha registrada ao elemento que você acha que a produziu.</li>
+      </ul>
+    </details>
+    <div data-lab="a1"></div>
+  </div>
+
+  <div id="a1-h" class="card">
+    <div class="sec-title"><span class="num">3</span><h3>Hipótese e evidências</h3></div>
+    <div class="field"><span>Quais elementos você acredita que estão nesta estrela?</span><div class="chips" data-els="a1"></div></div>
+    <label class="field"><span>Minha hipótese</span><textarea data-bind="a1.hip" placeholder="A atmosfera desta estrela contém… porque…"></textarea></label>
+    <div class="field"><span>Selecione as observações que sustentam sua conclusão</span><div class="ev-list" data-ev="a1"></div></div>
+    <label class="field"><span>Justificativa: por que essas evidências bastam?</span><textarea data-bind="a1.just"></textarea></label>
+    <button class="btn brass" data-submit="a1">Enviar hipótese para análise</button>
+  </div>
+
+  <div id="a1-r" class="card" hidden>
+    <div class="sec-title"><span class="num">4</span><h3>Retorno da Cecilia</h3></div>
+    <ul class="fb" data-fb="a1"></ul>
+    <div class="row" style="margin-top:14px">
+      <button class="btn ghost" data-scroll="a1-i">Revisar minhas medições</button>
+      <button class="btn ghost" data-auto="a1">Ligar identificação automática</button>
+      <button class="btn" data-reveal="a1">Ver resolução e explicação</button>
+    </div>
+  </div>
+
+  <div id="a1-c" class="card concept" hidden>
+    <h3>O que a placa mostra</h3>
+    <p>Os elementos presentes são <b>hidrogênio, cálcio, sódio, ferro e magnésio</b>. Hélio, mercúrio, neônio e lítio não aparecem: suas linhas mais intensas não estão na placa.</p>
+    <h4>Por que surgem linhas escuras?</h4>
+    <p>O interior da estrela emite luz de todas as cores. Ao atravessar a atmosfera mais fria da estrela, os átomos absorvem exatamente os comprimentos de onda que conseguem absorver. Essas cores “somem” e viram linhas escuras, na mesma posição em que o elemento emite no laboratório.</p>
+    <h4>A grande virada de Payne</h4>
+    <p>As linhas do hidrogênio não são as mais escuras desta placa. Por isso, muitos achavam que estrelas eram feitas de ferro, cálcio e outros metais, como a Terra. Payne mostrou que a força de uma linha depende muito da <b>temperatura</b> do gás, e não só da quantidade do elemento. Fazendo essa correção, concluiu que hidrogênio e hélio dominam as estrelas.</p>
+    <div class="bars" aria-label="Composição do Sol em massa">
+      <div class="bar"><span>Hidrogênio</span><i style="width:73%"></i><span>≈73%</span></div>
+      <div class="bar"><span>Hélio</span><i style="width:25%"></i><span>≈25%</span></div>
+      <div class="bar"><span>Todos os outros</span><i style="width:2%"></i><span>≈2%</span></div>
+    </div>
+    <p class="small">Composição do Sol em massa, segundo medidas atuais.</p>
+  </div>
+
+  <div id="a1-f" class="card reflect" hidden>
+    <div class="sec-title"><span class="num">5</span><h3>Reflexão</h3></div>
+    <label class="field"><span>Que evidências sustentam sua hipótese?</span><textarea data-bind="a1.r.0"></textarea></label>
+    <label class="field"><span>Que outra explicação seria possível para alguma linha que você identificou?</span><textarea data-bind="a1.r.1"></textarea></label>
+    <label class="field"><span>Que dado adicional ajudaria a confirmar sua conclusão?</span><textarea data-bind="a1.r.2"></textarea></label>
+  </div>
+</section>
+
+<!-- ================= ACT 2 ================= -->
+<section class="tab" id="a2" hidden>
+  <div class="act-head">
+    <div class="kicker">Caso 2</div>
+    <h2>Qual é a temperatura da estrela?</h2>
+    <ol class="steps" data-steps="a2"></ol>
+  </div>
+
+  <div id="a2-p" class="letter">
+    <div class="meta">Problema</div>
+    <p>Recebemos medições da energia emitida por cinco estrelas em vários comprimentos de onda, inclusive no ultravioleta e no infravermelho, que nossos olhos não veem.</p>
+    <p>Cada curva tem um ponto de máxima emissão, o λ<sub>máx</sub>. Use-o para estimar a temperatura de cada estrela e explique por que estrelas diferentes distribuem sua energia de formas diferentes.</p>
+    <p class="sig">C. H. P.</p>
+  </div>
+
+  <div id="a2-i">
+    <div class="sec-title"><span class="num">2</span><h3>Investigação</h3></div>
+    <div class="stars" data-stars></div>
+    <p class="small" style="margin-top:8px">Os círculos mostram a cor de cada estrela em uma fotografia colorida.</p>
+    <div data-planck style="margin-top:12px"></div>
+    <div class="grid2" style="margin-top:18px">
+      <div class="card">
+        <h4>Calculadora da lei de Wien</h4>
+        <div class="calc">
+          <div class="formula">λ<sub>máx</sub> · T = b<small>b = 2.898.000 nm·K (constante de Wien)</small></div>
+          <div class="calc-row"><label>λ<sub>máx</sub> <input type="number" step="1" data-cl placeholder="nm"> nm</label><output data-ct>T = ?</output></div>
+          <div class="calc-row"><label>T <input type="number" step="100" data-ctin placeholder="K"> K</label><output data-clo>λ<sub>máx</sub> = ?</output></div>
+          <div class="calc-steps" data-cs></div>
+        </div>
+      </div>
+      <div class="card">
+        <h4>Diagrama de Wien</h4>
+        <p class="small">Arraste o ponto amarelo ao longo da curva. Os pontos com letras são as suas medições da tabela.</p>
+        <div data-wien></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h4>Tabela de medições</h4>
+      <div class="tablewrap"><table class="t2"><thead><tr><th>Estrela</th><th>Cor</th><th>λ<sub>máx</sub> medido (nm)</th><th>Região do pico</th><th>T calculada (K)</th></tr></thead><tbody data-t2></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="a2-h" class="card">
+    <div class="sec-title"><span class="num">3</span><h3>Hipótese e evidências</h3></div>
+    <div class="field"><span>Ordene as estrelas da mais quente para a mais fria</span><div class="rank" data-rank></div></div>
+    <label class="field"><span>Por que estrelas de temperaturas diferentes distribuem a energia de forma diferente ao longo do espectro?</span><textarea data-bind="a2.exp" placeholder="Quanto mais quente a estrela…"></textarea></label>
+    <div class="field"><span>Selecione as observações que sustentam sua explicação</span><div class="ev-list" data-ev="a2"></div></div>
+    <button class="btn brass" data-submit="a2">Enviar hipótese para análise</button>
+  </div>
+
+  <div id="a2-r" class="card" hidden>
+    <div class="sec-title"><span class="num">4</span><h3>Retorno da Cecilia</h3></div>
+    <ul class="fb" data-fb="a2"></ul>
+    <div class="row" style="margin-top:14px">
+      <button class="btn ghost" data-scroll="a2-i">Revisar minhas medições</button>
+      <button class="btn" data-reveal="a2">Ver resolução e explicação</button>
+    </div>
+  </div>
+
+  <div id="a2-c" class="card concept" hidden>
+    <h3>O que as curvas mostram</h3>
+    <div class="tablewrap"><table class="t2"><thead><tr><th>Estrela</th><th>λ<sub>máx</sub></th><th>Temperatura</th></tr></thead><tbody data-ans2></tbody></table></div>
+    <h4>A lei de Wien</h4>
+    <p>Todo corpo quente e denso emite um espectro contínuo. Quanto mais quente, mais energia ele emite em <b>todos</b> os comprimentos de onda, e mais o pico se desloca para comprimentos de onda curtos: λ<sub>máx</sub> · T = 2.898.000 nm·K.</p>
+    <p>Uma estrela de 15.000 K tem pico no ultravioleta, mas ainda emite todas as cores visíveis, com mais azul que vermelho: por isso parece branco-azulada. Uma estrela de 3.300 K tem pico no infravermelho e parece alaranjada. O Sol, com cerca de 5.800 K, tem pico no visível.</p>
+    <h4>A ligação com o Caso 1</h4>
+    <p>Em Harvard, Annie Jump Cannon organizou os espectros nas classes O, B, A, F, G, K, M. Payne mostrou que essa sequência é, sobretudo, uma sequência de <b>temperatura</b>: estrelas com composição parecida mostram linhas diferentes porque estão mais quentes ou mais frias.</p>
+  </div>
+
+  <div id="a2-f" class="card reflect" hidden>
+    <div class="sec-title"><span class="num">5</span><h3>Reflexão</h3></div>
+    <label class="field"><span>Que evidências sustentam sua hipótese?</span><textarea data-bind="a2.r.0"></textarea></label>
+    <label class="field"><span>Que outra explicação seria possível para a cor diferente das estrelas?</span><textarea data-bind="a2.r.1"></textarea></label>
+    <label class="field"><span>Que dado adicional ajudaria a confirmar as temperaturas?</span><textarea data-bind="a2.r.2"></textarea></label>
+  </div>
+</section>
+
+<!-- ================= ACT 3 ================= -->
+<section class="tab" id="a3" hidden>
+  <div class="act-head">
+    <div class="kicker">Caso 3</div>
+    <h2>O mistério da nebulosa</h2>
+    <ol class="steps" data-steps="a3"></ol>
+  </div>
+
+  <div id="a3-p" class="letter">
+    <div class="meta">Problema</div>
+    <p>Esta placa não é de uma estrela, e sim de uma nebulosa: uma nuvem de gás que brilha no céu. A placa parece o “negativo” das placas de estrelas: um fundo escuro com linhas brilhantes.</p>
+    <p>Alguns astrônomos dizem que certas linhas vêm de um elemento que não existe na Terra, o “nebúlio”. Descubra quais elementos estão na nebulosa e explique como surgem linhas brilhantes e linhas escuras.</p>
+    <p class="sig">C. H. P.</p>
+  </div>
+
+  <div id="a3-i">
+    <div class="sec-title"><span class="num">2</span><h3>Investigação</h3></div>
+    <details class="howto" style="margin-bottom:12px"><summary>Dicas para esta placa</summary>
+      <ul>
+        <li>Algumas linhas são muito fracas. Aumente a <b>Exposição</b> para enxergá-las.</li>
+        <li>Use <b>Comparar com outros espectros</b> para colocar a placa de uma estrela embaixo da nebulosa.</li>
+        <li>Se uma linha não combina com nenhum elemento do catálogo, registre-a como <b>desconhecida</b>.</li>
+      </ul>
+    </details>
+    <div data-lab="a3"></div>
+
+    <div class="card" style="margin-top:18px">
+      <h4>Arquivo de dados da nebulosa</h4>
+      <div class="stats">
+        <div class="stat"><span class="ic">🌫️</span><b>Densidade</b>Cerca de 1.000 átomos por cm³. O ar que respiramos tem cerca de 25 quintilhões.</div>
+        <div class="stat"><span class="ic">🌡️</span><b>Temperatura do gás</b>Cerca de 10.000 K.</div>
+        <div class="stat"><span class="ic">⭐</span><b>Estrela vizinha</b>Muito quente (≈25.000 K), emite muito ultravioleta.</div>
+        <div class="stat"><span class="ic">📷</span><b>Fotos coloridas</b>Tons de vermelho e verde-azulado.</div>
+      </div>
+      <div class="quiet" style="margin-top:14px" data-neb>
+        <b>Linhas sem explicação?</b>
+        <p class="small" style="margin:4px 0 8px">Registre pelo menos uma linha como “❓ desconhecida” e escolha uma hipótese inicial para pedir novos dados.</p>
+        <div class="chips" data-nebopts>
+          <label class="chip"><input type="radio" name="neb" value="novo"> Um elemento novo, que não existe na Terra</label>
+          <label class="chip"><input type="radio" name="neb" value="condicoes"> Um elemento conhecido, em condições que não reproduzimos no laboratório</label>
+          <label class="chip"><input type="radio" name="neb" value="erro"> Um defeito da placa fotográfica</label>
+        </div>
+        <div class="row" style="margin-top:10px"><button class="btn" data-unlock>Solicitar dados de laboratório de 1927</button><span class="small" data-unlockmsg></span></div>
+      </div>
+      <div class="quiet" style="margin-top:14px" data-bowen hidden>
+        <b>Novos dados: Ira Bowen, 1927</b>
+        <p class="small" style="margin:4px 0 0">Bowen calculou as linhas de átomos de oxigênio e nitrogênio que perderam elétrons (ionizados). Algumas dessas linhas só aparecem quando o gás é <b>extremamente rarefeito</b>, como numa nebulosa; na Terra, é praticamente impossível obter um gás tão rarefeito. Os dois espectros foram adicionados ao catálogo.</p>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="card kir">
+        <h4>Bancada: fonte, gás e telescópios</h4>
+        <p class="small">Ligue e desligue as peças e observe o que cada telescópio registra.</p>
+        <div data-kir></div>
+      </div>
+      <div class="card atom">
+        <h4>Modelo do átomo de hidrogênio</h4>
+        <p class="small">O elétron só pode ocupar certos níveis de energia. Escolha um salto e veja que luz ele envolve.</p>
+        <div data-atom></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="a3-h" class="card">
+    <div class="sec-title"><span class="num">3</span><h3>Hipótese e evidências</h3></div>
+    <div class="field"><span>Quais elementos estão na nebulosa?</span><div class="chips" data-els="a3"></div></div>
+    <label class="field"><span>Minha hipótese sobre a composição</span><textarea data-bind="a3.hip"></textarea></label>
+    <label class="field"><span>Como surgem as linhas brilhantes da nebulosa e as linhas escuras das estrelas? Construa sua explicação.</span><textarea data-bind="a3.exp" placeholder="Os átomos de um gás…"></textarea></label>
+    <div class="field"><span>Selecione as observações que sustentam sua conclusão</span><div class="ev-list" data-ev="a3"></div></div>
+    <label class="field"><span>Justificativa</span><textarea data-bind="a3.just"></textarea></label>
+    <button class="btn brass" data-submit="a3">Enviar hipótese para análise</button>
+  </div>
+
+  <div id="a3-r" class="card" hidden>
+    <div class="sec-title"><span class="num">4</span><h3>Retorno da Cecilia</h3></div>
+    <ul class="fb" data-fb="a3"></ul>
+    <div class="row" style="margin-top:14px">
+      <button class="btn ghost" data-scroll="a3-i">Revisar minhas medições</button>
+      <button class="btn ghost" data-auto="a3">Ligar identificação automática</button>
+      <button class="btn" data-reveal="a3">Ver resolução e explicação</button>
+    </div>
+  </div>
+
+  <div id="a3-c" class="card concept" hidden>
+    <h3>O que a placa mostra</h3>
+    <p>A nebulosa contém <b>hidrogênio, hélio, oxigênio ionizado e nitrogênio ionizado</b>. As linhas verdes em 495,9 e 500,7 nm, atribuídas ao “nebúlio”, são do oxigênio que perdeu dois elétrons. Não havia elemento novo: havia condições novas.</p>
+    <h4>Três tipos de espectro</h4>
+    <p><b>Contínuo:</b> um corpo quente e denso, como o interior de uma estrela, emite todas as cores. <b>Emissão:</b> um gás rarefeito que recebe energia emite apenas algumas cores. <b>Absorção:</b> um gás mais frio diante de uma fonte contínua retira essas mesmas cores.</p>
+    <h4>Por que as posições coincidem?</h4>
+    <p>Os elétrons de um átomo só ocupam níveis de energia específicos. Ao cair de um nível para outro, o átomo emite um fóton com energia igual à diferença entre os níveis. Para subir, precisa absorver um fóton com essa mesma energia. Por isso o hidrogênio brilha em 656,3 nm na nebulosa e apaga essa mesma cor na estrela.</p>
+    <h4>De onde vem a energia da nebulosa?</h4>
+    <p>A estrela vizinha emite muito ultravioleta, que arranca elétrons dos átomos do gás. Quando os elétrons voltam e descem pelos níveis, o gás emite suas linhas características.</p>
+  </div>
+
+  <div id="a3-f" class="card reflect" hidden>
+    <div class="sec-title"><span class="num">5</span><h3>Reflexão</h3></div>
+    <label class="field"><span>Que evidências sustentam sua hipótese?</span><textarea data-bind="a3.r.0"></textarea></label>
+    <label class="field"><span>Que outra explicação seria possível para as linhas que você não conseguiu identificar no início?</span><textarea data-bind="a3.r.1"></textarea></label>
+    <label class="field"><span>Que dado adicional ajudaria a confirmar sua conclusão?</span><textarea data-bind="a3.r.2"></textarea></label>
+  </div>
+</section>
+
+<!-- ================= CADERNO ================= -->
+<section class="tab nb" id="caderno" hidden>
+  <div class="act-head"><div class="kicker">Caderno de investigação</div><h2>Meus registros</h2></div>
+  <p class="small">Tudo o que você escreve fica salvo neste navegador. Copie o texto para entregar ao professor.</p>
+  <div class="row"><button class="btn brass" id="copyNb">Copiar caderno</button><button class="btn ghost" id="resetNb">Apagar meus registros</button></div>
+  <pre id="nbText"></pre>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================== Utilidades ===================== */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const fmt=(x,d=1)=>Number(x).toFixed(d).replace('.',',');
+const fmtInt=x=>Math.round(x).toLocaleString('pt-BR');
+const uid=()=>Math.random().toString(36).slice(2,9);
+const norm=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=v=>{const n=parseFloat(String(v??'').replace(/\./g,'').replace(',','.'));return isFinite(n)?n:NaN};
+const numDec=v=>{const n=parseFloat(String(v??'').replace(',','.'));return isFinite(n)?n:NaN};
+const WIEN=2898000;
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),1800)}
+
+function wlToRGB(w){let r=0,g=0,b=0;
+  if(w<380||w>780)return [0,0,0];
+  if(w<440){r=-(w-440)/60;b=1}else if(w<490){g=(w-440)/50;b=1}else if(w<510){g=1;b=-(w-510)/20}
+  else if(w<580){r=(w-510)/70;g=1}else if(w<645){r=1;g=-(w-645)/65}else{r=1}
+  let f=1;if(w<420)f=.35+.65*(w-380)/40;else if(w>700)f=.35+.65*(780-w)/80;
+  return [r,g,b].map(c=>Math.pow(c*f,.8));}
+function hash(i){let x=i|0;x=Math.imul(x^(x>>>16),0x45d9f3b);x=Math.imul(x^(x>>>16),0x45d9f3b);x^=x>>>16;return (x>>>0)/4294967295}
+function vnoise(x){const i=Math.floor(x),f=x-i,u=f*f*(3-2*f);return hash(i)*(1-u)+hash(i+1)*u}
+function planck(wl,T){return 1/(Math.pow(wl,5)*(Math.exp(1.4388e7/(wl*T))-1))}
+function kelvinRGB(K){const t=K/100;let r,g,b;
+  if(t<=66){r=255;g=99.4708025861*Math.log(t)-161.1195681661;b=t<=19?0:138.5177312231*Math.log(t-10)-305.0447927307}
+  else{r=329.698727446*Math.pow(t-60,-0.1332047592);g=288.1221695283*Math.pow(t-60,-0.0755148492);b=255}
+  const c=v=>Math.max(0,Math.min(255,Math.round(v)));return `rgb(${c(r)},${c(g)},${c(b)})`}
+
+/* ===================== Dados ===================== */
+const ELEMENTS={
+  H:{nome:'Hidrogênio',tag:'#ff8a8a',linhas:[[656.3,1],[486.1,.7],[434.0,.5],[410.2,.4],[397.0,.3]]},
+  He:{nome:'Hélio',tag:'#ffd166',linhas:[[447.1,.6],[471.3,.3],[492.2,.4],[501.6,.5],[587.6,1],[667.8,.6]]},
+  Na:{nome:'Sódio',tag:'#f4a259',linhas:[[589.0,1],[589.6,.8]]},
+  Ca:{nome:'Cálcio',tag:'#9bd1ff',linhas:[[393.4,1],[396.8,.9],[422.7,.6],[445.5,.3],[616.2,.3]]},
+  Fe:{nome:'Ferro',tag:'#c7a6ff',linhas:[[404.6,.6],[406.4,.5],[430.8,.6],[438.4,.8],[440.5,.6],[495.7,.5],[527.0,.7],[532.8,.6],[537.1,.4],[630.2,.3]]},
+  Mg:{nome:'Magnésio',tag:'#7ee0b5',linhas:[[383.8,.5],[516.7,.7],[517.3,.8],[518.4,1]]},
+  Hg:{nome:'Mercúrio',tag:'#c3cad8',linhas:[[404.7,.6],[435.8,.8],[546.1,1],[577.0,.5],[579.1,.5]]},
+  Ne:{nome:'Neônio',tag:'#ff8fc7',linhas:[[585.2,.8],[588.2,.4],[603.0,.4],[614.3,.6],[621.7,.4],[640.2,1],[650.7,.6],[692.9,.4]]},
+  Li:{nome:'Lítio',tag:'#ffb3a7',linhas:[[413.3,.3],[460.3,.4],[610.4,.5],[670.8,1]]},
+  OIII:{nome:'Oxigênio ionizado',sym:'O²⁺',tag:'#5ef2c2',linhas:[[436.3,.15],[495.9,.35],[500.7,1]],bowen:true},
+  NII:{nome:'Nitrogênio ionizado',sym:'N⁺',tag:'#ffa8e0',linhas:[[575.5,.1],[654.8,.35],[658.3,1]],bowen:true},
+};
+const symOf=s=>ELEMENTS[s]?(ELEMENTS[s].sym||s):s;
+
+class Spectrum{
+  constructor(o){Object.assign(this,{cont:0,noise:.01,seed:1,T:5800},o);
+    if(this.type!=='emission'){let m=0;for(let w=380;w<=700;w+=1)m=Math.max(m,planck(w,this.T));this.norm=m}}
+  base(wl){
+    if(this.type==='emission'){let v=this.cont;for(const l of this.lines){const d=(wl-l.wl)/l.s;if(d*d<60)v+=l.a*Math.exp(-.5*d*d)}return v}
+    let v=planck(wl,this.T)/this.norm;
+    if(this.type==='absorption'){for(const l of this.lines){const d=(wl-l.wl)/l.s;if(d*d<60)v*=1-l.a*Math.exp(-.5*d*d)}}
+    return v}
+  intensity(wl){const v=this.base(wl)+this.noise*(vnoise(wl*20+this.seed*977)-.5)*2;return v<0?0:v}
+}
+const L_=(wl,a,el,s=.35)=>({wl,a,el,s});
+const STAR1=new Spectrum({type:'absorption',T:5800,noise:.022,seed:3,lines:[
+  L_(656.3,.55,'H'),L_(486.1,.5,'H'),L_(434.0,.42,'H'),L_(410.2,.36,'H'),L_(397.0,.25,'H',.5),
+  L_(393.4,.92,'Ca',1.1),L_(396.8,.88,'Ca',1.0),L_(422.7,.6,'Ca'),L_(445.5,.2,'Ca'),L_(616.2,.22,'Ca'),
+  L_(589.0,.72,'Na'),L_(589.6,.66,'Na'),
+  L_(404.6,.42,'Fe'),L_(406.4,.38,'Fe'),L_(430.8,.5,'Fe'),L_(438.4,.55,'Fe'),L_(440.5,.42,'Fe'),L_(495.7,.36,'Fe'),L_(527.0,.48,'Fe'),L_(532.8,.4,'Fe'),L_(537.1,.3,'Fe'),L_(630.2,.26,'Fe'),
+  L_(383.8,.35,'Mg'),L_(516.7,.5,'Mg'),L_(517.3,.56,'Mg'),L_(518.4,.62,'Mg')]});
+const HOTSTAR=new Spectrum({type:'absorption',T:25000,noise:.02,seed:7,lines:[
+  L_(656.3,.35,'H',.6),L_(486.1,.4,'H',.6),L_(434.0,.38,'H',.6),L_(410.2,.34,'H',.6),L_(397.0,.3,'H',.6),
+  L_(447.1,.35,'He'),L_(471.3,.18,'He'),L_(492.2,.22,'He'),L_(501.6,.25,'He'),L_(587.6,.3,'He'),L_(667.8,.25,'He')]});
+const NEB=new Spectrum({type:'emission',cont:.015,noise:.01,seed:11,lines:[
+  L_(656.3,.95,'H'),L_(486.1,.33,'H'),L_(434.0,.16,'H'),L_(410.2,.085,'H'),L_(397.0,.05,'H'),
+  L_(500.7,1,'OIII'),L_(495.9,.34,'OIII'),L_(436.3,.03,'OIII'),
+  L_(658.3,.32,'NII'),L_(654.8,.11,'NII'),L_(575.5,.025,'NII'),
+  L_(587.6,.12,'He'),L_(447.1,.05,'He'),L_(667.8,.035,'He')]});
+const SPEC={a1:STAR1,a3:NEB};
+const CAT={a1:['H','He','Na','Ca','Fe','Mg','Hg','Ne','Li'],a3:['H','He','Na','Ca','Fe','Ne','Hg','OIII','NII']};
+const TRUE={a1:['H','Ca','Na','Fe','Mg'],a3:['H','He','OIII','NII']};
+const STARS=[{id:'A',T:9700},{id:'B',T:3300},{id:'C',T:5800},{id:'D',T:15000},{id:'E',T:4400}];
+const RANK_TRUE=['D','A','C','E','B'];
+
+const FIXED_EV={
+ a1:[
+  {id:'f1',t:'O espectro é uma faixa contínua de cores cortada por linhas escuras.',k:'forte',w:'Linhas escuras mostram que algo absorveu luz em comprimentos de onda específicos.'},
+  {id:'f2',t:'No laboratório, cada elemento produz linhas sempre nos mesmos comprimentos de onda.',k:'forte',w:'É o princípio que permite comparar a estrela com o catálogo.'},
+  {id:'f6',t:'Um elemento só pode ser confirmado quando várias de suas linhas aparecem, e não apenas uma.',k:'forte',w:'Uma coincidência isolada pode ser acaso; várias coincidências formam evidência.'},
+  {id:'f3',t:'A estrela parece amarelada no céu.',k:'irrelevante',w:'A cor geral informa sobre a temperatura, não sobre quais elementos estão presentes.'},
+  {id:'f4',t:'A placa foi obtida com um telescópio grande.',k:'irrelevante',w:'O instrumento não muda a posição das linhas.'},
+  {id:'f5',t:'As linhas mais escuras indicam os elementos mais abundantes.',k:'refutada',w:'Payne mostrou que isso é falso: a intensidade de uma linha depende muito da temperatura.'}],
+ a2:[
+  {id:'e2',t:'Quanto menor o λmáx medido, maior a temperatura calculada.',k:'forte',w:'É a relação expressa pela lei de Wien.'},
+  {id:'e1',t:'A estrela D tem pico no ultravioleta, mas na foto parece branco-azulada.',k:'forte',w:'Mostra que a cor visível depende da forma da curva, não só do pico.'},
+  {id:'e4',t:'A estrela B tem pico no infravermelho e parece alaranjada.',k:'forte',w:'Estrelas frias concentram energia em comprimentos de onda longos.'},
+  {id:'e3',t:'Na escala logarítmica, a curva da estrela mais quente fica acima das outras em todos os comprimentos de onda.',k:'forte',w:'Estrelas mais quentes emitem mais energia em todo o espectro.'},
+  {id:'e6',t:'Todas as estrelas emitem todas as cores visíveis, mas em proporções diferentes.',k:'forte',w:'A faixa visível de cada estrela mostra isso.'},
+  {id:'e5',t:'A estrela mais avermelhada é a mais quente, como as brasas de uma fogueira.',k:'refutada',w:'Os dados mostram o contrário: o pico avermelhado corresponde às menores temperaturas.'},
+  {id:'e7',t:'As estrelas estão a distâncias diferentes da Terra.',k:'irrelevante',w:'A distância muda o brilho aparente, mas não a posição do pico.'}],
+ a3:[
+  {id:'n1',t:'As linhas da nebulosa são brilhantes sobre um fundo quase escuro.',k:'forte',w:'É a marca de um gás rarefeito que emite luz.'},
+  {id:'n2',t:'As linhas brilhantes do hidrogênio na nebulosa estão nas mesmas posições das linhas escuras do hidrogênio nas estrelas.',k:'forte',w:'O mesmo elemento emite e absorve nos mesmos comprimentos de onda.'},
+  {id:'n3',t:'Na bancada, o mesmo gás produz linhas brilhantes visto de lado e linhas escuras visto diante da fonte.',k:'forte',w:'O tipo de espectro depende da situação, não do elemento.'},
+  {id:'n4',t:'No modelo do átomo, cada salto entre níveis corresponde a um único comprimento de onda.',k:'forte',w:'Explica por que as linhas são finas e sempre nas mesmas posições.'},
+  {id:'n5',t:'A nebulosa está perto de uma estrela muito quente, que emite muito ultravioleta.',k:'forte',w:'Indica de onde vem a energia que faz o gás brilhar.'},
+  {id:'n6',t:'O gás da nebulosa é extremamente rarefeito.',k:'forte',w:'Explica linhas que não conseguimos produzir no laboratório.'},
+  {id:'n7',t:'A nebulosa é muito maior que o Sistema Solar.',k:'irrelevante',w:'O tamanho não muda a posição das linhas.'},
+  {id:'n8',t:'As linhas verdes provam que existe um elemento novo, o nebúlio.',k:'refutada',w:'Os dados de 1927 mostram que elas vêm do oxigênio ionizado.'}],
+};
+
+/* ===================== Estado ===================== */
+const KEY='laboratorio-payne-v1';
+function fresh(){return{a1:{marks:[],els:[],hip:'',just:'',ev:[],sub:0,auto:false,r:['','','']},
+  a2:{rows:{},rank:['','','','',''],exp:'',ev:[],sub:0,r:['','','']},
+  a3:{marks:[],els:[],hip:'',just:'',exp:'',ev:[],sub:0,auto:false,unl:false,neb:'',r:['','','']}}}
+let S=fresh();
+try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d)for(const k in S)Object.assign(S[k],d[k]||{})}catch(e){}
+let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},250);updateSteps()}
+const getP=p=>p.split('.').reduce((o,k)=>o?.[k],S);
+function setP(p,v){const ks=p.split('.');const last=ks.pop();ks.reduce((o,k)=>o[k],S)[last]=v}
+
+/* ===================== Espectrômetro ===================== */
+class Spectrometer{
+  constructor(host,o){
+    this.o=o;this.spec=o.spectrum;this.marks=o.marks;this.view={min:380,max:700};this.mode='mark';
+    this.active=[];this.comps=o.comparisons||[];this.project=false;this.auto=!!o.auto;this.gain=1;this.cx=null;
+    host.classList.add('instrument');
+    host.innerHTML=`<div class="tb">
+      <div class="seg" role="group" aria-label="Modo"><button data-mode="mark" class="on">📍 Marcar linhas</button><button data-mode="nav">✋ Mover / zoom</button></div>
+      <div class="tb-g"><button data-z="in" title="Ampliar" aria-label="Ampliar">＋</button><button data-z="out" title="Reduzir" aria-label="Reduzir">－</button><button data-z="all" title="Ver tudo" aria-label="Ver espectro inteiro">⤢</button></div>
+      <label>de <input type="number" step="0.1" data-r="min"> a <input type="number" step="0.1" data-r="max"> nm</label>
+      <label>Exposição <input type="range" min="1" max="12" step="0.5" value="1" data-gain></label>
+      <label><input type="checkbox" data-proj> Projetar linhas do catálogo</label></div>
+      <div class="cv-wrap"><canvas tabindex="0" aria-label="Espectrômetro: espectro, régua de comprimento de onda e gráfico de intensidade"></canvas></div>
+      <div class="readout"><span data-ro>Passe o cursor sobre o espectro.</span><span class="hint" data-hint></span></div>`;
+    this.cv=$('canvas',host);this.ctx=this.cv.getContext('2d');this.off=document.createElement('canvas');
+    this.ro=$('[data-ro]',host);this.hint=$('[data-hint]',host);this.inMin=$('[data-r=min]',host);this.inMax=$('[data-r=max]',host);
+    $$('[data-mode]',host).forEach(b=>b.onclick=()=>{this.mode=b.dataset.mode;$$('[data-mode]',host).forEach(x=>x.classList.toggle('on',x===b));this.setHint()});
+    $$('[data-z]',host).forEach(b=>b.onclick=()=>{const z=b.dataset.z,c=(this.view.min+this.view.max)/2,s=this.view.max-this.view.min;
+      if(z==='all')this.setView(380,700);else{const ns=z==='in'?s/2:s*2;this.setView(c-ns/2,c+ns/2)}});
+    const apply=()=>{const a=numDec(this.inMin.value),b=numDec(this.inMax.value);if(isFinite(a)&&isFinite(b)&&b>a)this.setView(a,b)};
+    this.inMin.onchange=apply;this.inMax.onchange=apply;
+    $('[data-gain]',host).oninput=e=>{this.gain=+e.target.value;this.render()};
+    $('[data-proj]',host).onchange=e=>{this.project=e.target.checked;this.render()};
+    const pos=e=>{const r=this.cv.getBoundingClientRect();return e.clientX-r.left};
+    this.cv.addEventListener('pointerdown',e=>{this.down={x:pos(e),min:this.view.min,max:this.view.max,moved:false};try{this.cv.setPointerCapture(e.pointerId)}catch(_){}});
+    this.cv.addEventListener('pointermove',e=>{const x=pos(e);this.cx=x;
+      if(this.down){if(Math.abs(x-this.down.x)>4)this.down.moved=true;
+        if(this.mode==='nav'&&this.down.moved){const pw=this.pw(),span=this.down.max-this.down.min,dw=-(x-this.down.x)/pw*span;this.setView(this.down.min+dw,this.down.max+dw);return}}
+      this.drawDyn()});
+    this.cv.addEventListener('pointerup',e=>{const x=pos(e);if(this.down&&!this.down.moved&&this.mode==='mark'&&this.inPlot(x))this.addMark(this.wlAt(x));this.down=null});
+    this.cv.addEventListener('pointerleave',()=>{if(!this.down){this.cx=null;this.drawDyn()}});
+    this.cv.addEventListener('wheel',e=>{if(this.mode!=='nav')return;e.preventDefault();const x=pos(e);if(!this.inPlot(x))return;
+      const w=this.wlAt(x),f=e.deltaY>0?1.25:1/1.25;this.setView(w-(w-this.view.min)*f,w+(this.view.max-w)*f)},{passive:false});
+    this.cv.addEventListener('dblclick',e=>{if(this.mode!=='nav')return;const w=this.wlAt(pos(e)),s=(this.view.max-this.view.min)/2.5;this.setView(w-s/2,w+s/2)});
+    this.cv.addEventListener('keydown',e=>{const s=this.view.max-this.view.min;
+      if(e.key==='ArrowLeft'){this.setView(this.view.min-s*.1,this.view.max-s*.1);e.preventDefault()}
+      if(e.key==='ArrowRight'){this.setView(this.view.min+s*.1,this.view.max+s*.1);e.preventDefault()}
+      if(e.key==='+'||e.key==='='){const c=this.view.min+s/2;this.setView(c-s/4,c+s/4)}
+      if(e.key==='-'){const c=this.view.min+s/2;this.setView(c-s,c+s)}});
+    this.setHint();
+    new ResizeObserver(()=>this.render()).observe($('.cv-wrap',host));
+  }
+  setHint(){this.hint.textContent=this.mode==='mark'?'Clique em uma linha para registrá-la.':'Arraste para deslocar. Roda do mouse ou duplo clique amplia.'}
+  pw(){return this.L?this.L.W-this.L.padL-this.L.padR:600}
+  inPlot(x){return this.L&&x>=this.L.padL&&x<=this.L.W-this.L.padR}
+  xOf(wl){return this.L.padL+(wl-this.view.min)/(this.view.max-this.view.min)*this.pw()}
+  wlAt(x){return this.view.min+(x-this.L.padL)/this.pw()*(this.view.max-this.view.min)}
+  setView(a,b){let s=Math.max(2,Math.min(320,b-a));let m=(a+b)/2;a=m-s/2;b=m+s/2;if(a<380){b+=380-a;a=380}if(b>700){a-=b-700;b=700}a=Math.max(380,a);this.view={min:a,max:b};this.render()}
+  layout(W){const L={padL:W<520?58:76,padR:12,W};let y=0;
+    L.strip={y,h:60};y+=60;L.ruler={y,h:30};y+=30;L.prof={y:y+6,h:130};y+=146;
+    L.comps=[];for(const c of this.comps.filter(c=>c.on)){L.comps.push({c,y,h:34});y+=38}
+    L.els=[];for(const s of this.active){L.els.push({s,y,h:24});y+=28}
+    L.H=y+4;return L}
+  spColor(spec,wl){const rgb=wlToRGB(wl);const I=spec.intensity(wl)*this.gain;
+    if(spec.type==='emission'){const b=Math.min(1,Math.pow(I,.55)*1.15),w=Math.max(0,Math.min(1,(I-1)*.4));return rgb.map(c=>c*b+w)}
+    const b=Math.min(1,I),w=Math.max(0,Math.min(.6,(I-1)*.3));return rgb.map(c=>c*Math.pow(b,.9)+w)}
+  elColor(s,wl){let I=0;for(const [w,a] of ELEMENTS[s].linhas){const d=(wl-w)/.35;if(d*d<40)I+=a*Math.exp(-.5*d*d)}const b=Math.min(1,Math.sqrt(I));return wlToRGB(wl).map(c=>c*b)}
+  stripImg(g,box,fn){const d=this.dpr,L=this.L;const X0=Math.round(L.padL*d),X1=Math.round((L.W-L.padR)*d),Y0=Math.round(box.y*d),Hh=Math.round(box.h*d),w=X1-X0;if(w<=0||Hh<=0)return;
+    const img=g.createImageData(w,Hh),D=img.data;
+    for(let i=0;i<w;i++){const c=fn(this.wlAt(L.padL+(i+.5)/d));
+      for(let j=0;j<Hh;j++){const t=Math.abs(j/(Hh-1)*2-1),e=1-.35*t*t*t*t,k=(j*w+i)*4;D[k]=c[0]*255*e;D[k+1]=c[1]*255*e;D[k+2]=c[2]*255*e;D[k+3]=255}}
+    g.putImageData(img,X0,Y0)}
+  label(g,t,box,col,bold){g.font=`${bold?'700 ':''}12px "Atkinson Hyperlegible",system-ui,sans-serif`;g.fillStyle=col;g.textBaseline='middle';g.textAlign='left';g.fillText(t,8,box.y+box.h/2)}
+  ticks(){const span=this.view.max-this.view.min,target=span/(this.pw()/70);const steps=[.1,.2,.5,1,2,5,10,20,25,50];const st=steps.find(s=>s>=target)||50;const out=[];
+    for(let w=Math.ceil(this.view.min/st)*st;w<=this.view.max+1e-9;w+=st)out.push(+w.toFixed(2));return{st,out}}
+  render(){
+    const wrap=this.cv.parentElement,W=wrap.clientWidth;if(W<60)return;
+    const L=this.layout(W);this.L=L;const d=this.dpr=Math.min(2,window.devicePixelRatio||1);
+    const cw=Math.round(W*d),ch=Math.round(L.H*d);
+    if(this.cv.width!==cw||this.cv.height!==ch){this.cv.width=cw;this.cv.height=ch}
+    this.off.width=cw;this.off.height=ch;this.cv.style.height=L.H+'px';
+    const g=this.off.getContext('2d');g.setTransform(1,0,0,1,0,0);g.fillStyle='#05070d';g.fillRect(0,0,cw,ch);
+    this.stripImg(g,L.strip,wl=>this.spColor(this.spec,wl));
+    for(const c of L.comps)this.stripImg(g,c,wl=>this.spColor(c.c.spectrum,wl));
+    for(const e of L.els)this.stripImg(g,e,wl=>this.elColor(e.s,wl));
+    g.setTransform(d,0,0,d,0,0);
+    this.label(g,'Placa',L.strip,'#f0dca6',true);
+    for(const c of L.comps)this.label(g,c.c.short,c,'#c9d3ea');
+    for(const e of L.els)this.label(g,symOf(e.s),e,ELEMENTS[e.s].tag,true);
+    this.drawRuler(g);this.drawProfile(g);
+    if(this.project)this.drawProjection(g);
+    if(this.auto)this.drawAuto(g);
+    this.drawMarks(g);
+    const p=this.view.max-this.view.min<20?2:1;
+    if(document.activeElement!==this.inMin)this.inMin.value=this.view.min.toFixed(p);
+    if(document.activeElement!==this.inMax)this.inMax.value=this.view.max.toFixed(p);
+    this.drawDyn()}
+  drawRuler(g){const L=this.L,R=L.ruler,pw=this.pw();const{st,out}=this.ticks();
+    g.fillStyle='#0c1224';g.fillRect(L.padL,R.y,pw,R.h);
+    g.strokeStyle='#4f5d7f';g.lineWidth=1;const mi=st/5;
+    for(let w=Math.ceil(this.view.min/mi)*mi;w<=this.view.max;w+=mi){const x=Math.round(this.xOf(w))+.5;g.beginPath();g.moveTo(x,R.y);g.lineTo(x,R.y+4);g.stroke()}
+    g.strokeStyle='#9aa7c6';g.fillStyle='#d4dbec';g.font='11px "Atkinson Hyperlegible",system-ui,sans-serif';g.textAlign='center';g.textBaseline='alphabetic';
+    for(const w of out){const x=Math.round(this.xOf(w))+.5;g.beginPath();g.moveTo(x,R.y);g.lineTo(x,R.y+9);g.stroke();g.fillText(fmt(w,st<1?1:0),x,R.y+23)}
+    g.textAlign='left';g.fillStyle='#8d98b2';g.fillText('λ (nm)',8,R.y+19)}
+  drawProfile(g){const L=this.L,P=L.prof,pw=this.pw(),top=1.1;
+    g.fillStyle='#090e1c';g.fillRect(L.padL,P.y,pw,P.h);
+    g.strokeStyle='rgba(120,140,180,.18)';g.lineWidth=1;
+    for(const w of this.ticks().out){const x=Math.round(this.xOf(w))+.5;g.beginPath();g.moveTo(x,P.y);g.lineTo(x,P.y+P.h);g.stroke()}
+    g.fillStyle='#8d98b2';g.font='10.5px "Atkinson Hyperlegible",system-ui,sans-serif';g.textAlign='right';g.textBaseline='middle';
+    for(const v of [0,.5,1]){const y=P.y+P.h-v/top*P.h;g.beginPath();g.moveTo(L.padL,y);g.lineTo(L.padL+pw,y);g.stroke();g.fillText(fmt(v,1),L.padL-5,y)}
+    g.textAlign='left';g.fillText('Intensidade',8,P.y+10);
+    const n=Math.max(2,Math.round(pw*this.dpr));g.beginPath();
+    for(let i=0;i<=n;i++){const x=L.padL+i/n*pw,v=Math.min(top,this.spec.intensity(this.wlAt(x))*this.gain),y=P.y+P.h-v/top*P.h;i?g.lineTo(x,y):g.moveTo(x,y)}
+    g.strokeStyle='#f3d38a';g.lineWidth=1.3;g.stroke();
+    g.lineTo(L.padL+pw,P.y+P.h);g.lineTo(L.padL,P.y+P.h);g.closePath();g.fillStyle='rgba(243,211,138,.08)';g.fill()}
+  drawProjection(g){const L=this.L;g.save();g.setLineDash([4,3]);g.lineWidth=1.2;
+    for(const s of this.active){g.strokeStyle=ELEMENTS[s].tag;g.globalAlpha=.85;
+      for(const [w] of ELEMENTS[s].linhas){if(w<this.view.min||w>this.view.max)continue;const x=Math.round(this.xOf(w))+.5;g.beginPath();g.moveTo(x,L.strip.y);g.lineTo(x,L.prof.y+L.prof.h);g.stroke()}}
+    g.restore()}
+  drawAuto(g){const L=this.L,P=L.prof,em=this.spec.type==='emission';
+    const vis=this.spec.lines.filter(l=>l.wl>=this.view.min&&l.wl<=this.view.max&&l.a>=(em?.03:.15)).sort((a,b)=>a.wl-b.wl);
+    let lastX=-99,row=0;g.font='700 10.5px "Atkinson Hyperlegible",system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';
+    for(const l of vis){const x=this.xOf(l.wl);row=x-lastX<24?(row+1)%3:0;lastX=x;const y=P.y+11+row*12;g.fillStyle=ELEMENTS[l.el].tag;g.fillText(symOf(l.el),x,y)}}
+  drawMarks(g){const L=this.L;g.font='700 10px "Atkinson Hyperlegible",system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';
+    this.marks.forEach((m,i)=>{if(m.wl<this.view.min||m.wl>this.view.max)return;const x=Math.round(this.xOf(m.wl))+.5;
+      g.strokeStyle='rgba(255,255,255,.75)';g.setLineDash([2,2]);g.beginPath();g.moveTo(x,L.strip.y+14);g.lineTo(x,L.strip.y+L.strip.h);g.stroke();
+      g.strokeStyle='rgba(255,255,255,.22)';g.beginPath();g.moveTo(x,L.prof.y);g.lineTo(x,L.prof.y+L.prof.h);g.stroke();g.setLineDash([]);
+      g.fillStyle='#fff';g.beginPath();g.moveTo(x-5,L.ruler.y);g.lineTo(x+5,L.ruler.y);g.lineTo(x,L.ruler.y+7);g.closePath();g.fill();
+      g.fillStyle='#ffffff';g.beginPath();g.arc(x,L.strip.y+8,7,0,7);g.fill();g.fillStyle='#05070d';g.fillText(String(i+1),x,L.strip.y+8.5)})}
+  drawDyn(){const g=this.ctx,d=this.dpr,L=this.L;if(!L)return;g.setTransform(1,0,0,1,0,0);g.drawImage(this.off,0,0);g.setTransform(d,0,0,d,0,0);
+    if(this.cx==null||!this.inPlot(this.cx)){return}
+    const x=this.cx,wl=this.wlAt(x),I=this.spec.intensity(wl);
+    g.strokeStyle='rgba(255,226,150,.95)';g.lineWidth=1;g.beginPath();g.moveTo(x+.5,0);g.lineTo(x+.5,L.H);g.stroke();
+    const P=L.prof,y=P.y+P.h-Math.min(1.1,I*this.gain)/1.1*P.h;g.fillStyle='#ffe296';g.beginPath();g.arc(x,y,3.5,0,7);g.fill();
+    const span=this.view.max-this.view.min,txt=fmt(wl,span<15?2:1)+' nm';g.font='700 11px "Atkinson Hyperlegible",system-ui,sans-serif';
+    const tw=g.measureText(txt).width+12;let bx=Math.min(L.W-L.padR-tw,Math.max(L.padL,x-tw/2));g.fillStyle='#ffe296';g.fillRect(bx,L.ruler.y+12,tw,16);g.fillStyle='#1a1204';g.textAlign='left';g.textBaseline='middle';g.fillText(txt,bx+6,L.ruler.y+20.5);
+    let near='';const tol=Math.max(.8,10*span/this.pw());let best=null;
+    for(const s of this.active)for(const [w] of ELEMENTS[s].linhas){const dd=Math.abs(w-wl);if(dd<tol&&(!best||dd<best.d))best={d:dd,s,w}}
+    if(best)near=` · referência próxima: ${symOf(best.s)} ${fmt(best.w)} nm`;
+    this.ro.textContent=`λ = ${fmt(wl,2)} nm · intensidade = ${fmt(I,2)}${near}`}
+  addMark(w0){const span=this.view.max-this.view.min,win=Math.max(.4,6*span/this.pw()),em=this.spec.type==='emission';
+    let best=w0,bv=this.spec.base(w0);const v0=bv;
+    for(let w=w0-win;w<=w0+win;w+=.02){const v=this.spec.base(w);if(em?v>bv:v<bv){bv=v;best=w}}
+    if(Math.abs(bv-v0)<.015*Math.max(.05,v0)&&!em)best=w0;
+    const wl=Math.round(best*10)/10;
+    if(this.marks.some(m=>Math.abs(m.wl-wl)<.25)){toast('Essa linha já foi registrada');return}
+    this.marks.push({id:uid(),wl,el:''});this.marks.sort((a,b)=>a.wl-b.wl);toast(`Linha registrada em ${fmt(wl)} nm`);this.o.onMarks();this.render()}
+}
+
+/* ===== Laboratório de espectros (espectrômetro + catálogo + tabela) ===== */
+const labs={};
+function avail(act,s){return !ELEMENTS[s].bowen||S[act].unl}
+function buildSpecLab(act,comparisons){
+  const root=$(`[data-lab="${act}"]`);const st=S[act];
+  root.innerHTML=`<div class="lab"><div style="display:grid;gap:14px;min-width:0"><div data-spm></div>
+    <div class="card"><h4>Linhas registradas</h4>
+      <div class="mark-add"><label>Registrar linha em λ = <input type="number" step="0.1" min="380" max="700" data-addwl> nm</label><button class="btn ghost" data-addbtn>Registrar</button></div>
+      <div class="tablewrap" data-mtable></div></div></div>
+    <aside class="card catalog"><h4>Catálogo de laboratório</h4><p class="small">Espectros de emissão de gases aquecidos no laboratório. Toque em um elemento para comparar.</p>
+      <div class="cat-list" data-cat></div>${comparisons?`<h4 style="margin-top:14px">Comparar com outros espectros</h4><div class="cmp-list" data-cmp></div>`:''}</aside></div>`;
+  const spm=new Spectrometer($('[data-spm]',root),{spectrum:SPEC[act],marks:st.marks,comparisons,auto:st.auto,onMarks:()=>{renderMarks();changed()}});
+  const changed=()=>{renderEvidence(act);save()};
+  function renderCatalog(){const box=$('[data-cat]',root);box.innerHTML='';
+    for(const s of CAT[act]){const E=ELEMENTS[s],ok=avail(act,s),on=spm.active.includes(s);
+      const b=document.createElement('button');b.className='cat-item'+(on?' on':'')+(ok?'':' locked');b.type='button';
+      b.setAttribute('aria-pressed',on);
+      b.innerHTML=ok?`<span class="sym" style="color:${E.tag};background:#05070d">${symOf(s)}</span><span class="nm">${E.nome}<em>${on?'comparando':'comparar'}</em></span><canvas width="440" height="28"></canvas><span class="wls">${E.linhas.map(l=>fmt(l[0])).join('  ·  ')} nm</span>`
+        :`<span class="sym">🔒</span><span class="nm">Espectro indisponível</span><span class="small">Ainda não temos dados para este gás.</span>`;
+      if(ok){paintStrip($('canvas',b),wl=>spm.elColor(s,wl));b.onclick=()=>{const i=spm.active.indexOf(s);i<0?spm.active.push(s):spm.active.splice(i,1);renderCatalog();spm.render()}}
+      else b.disabled=true;
+      box.appendChild(b)}
+    if(comparisons){const c=$('[data-cmp]',root);c.innerHTML='';comparisons.forEach((cp,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox" ${cp.on?'checked':''}> ${cp.label}`;$('input',l).onchange=e=>{cp.on=e.target.checked;spm.render()};c.appendChild(l)})}}
+  function renderMarks(){const box=$('[data-mtable]',root);
+    if(!st.marks.length){box.innerHTML='<div class="empty">Nenhuma linha registrada ainda. Clique sobre uma linha no espectrômetro.</div>';return}
+    const em=SPEC[act].type==='emission';
+    const opts=s=>`<option value="">— escolher elemento —</option>${CAT[act].filter(e=>avail(act,e)).map(e=>`<option value="${e}" ${s===e?'selected':''}>${symOf(e)} — ${ELEMENTS[e].nome}</option>`).join('')}<option value="?" ${s==='?'?'selected':''}>❓ desconhecida</option>`;
+    box.innerHTML=`<table class="marks"><thead><tr><th>#</th><th>λ (nm)</th><th>${em?'Brilho':'Intensidade no centro'}</th><th>Elemento associado</th><th></th></tr></thead><tbody>${st.marks.map((m,i)=>`<tr><td>${i+1}</td><td><b>${fmt(m.wl)}</b></td><td>${fmt(SPEC[act].intensity(m.wl),2)}</td><td><select data-id="${m.id}" aria-label="Elemento da linha ${i+1}">${opts(m.el)}</select></td><td><button class="del" data-del="${m.id}" aria-label="Remover linha ${i+1}">✕</button></td></tr>`).join('')}</tbody></table>`;
+    $$('select',box).forEach(s=>s.onchange=()=>{st.marks.find(m=>m.id===s.dataset.id).el=s.value;changed()});
+    $$('[data-del]',box).forEach(b=>b.onclick=()=>{const i=st.marks.findIndex(m=>m.id===b.dataset.del);st.marks.splice(i,1);st.ev=st.ev.filter(e=>e!=='m:'+b.dataset.del);renderMarks();changed();spm.render()})}
+  $('[data-addbtn]',root).onclick=()=>{const w=numDec($('[data-addwl]',root).value);if(!(w>=380&&w<=700)){toast('Digite um valor entre 380 e 700 nm');return}spm.addMark(w)};
+  renderCatalog();renderMarks();
+  labs[act]={spm,renderCatalog,renderMarks};
+}
+function paintStrip(cv,fn){const g=cv.getContext('2d'),w=cv.width,h=cv.height,img=g.createImageData(w,h),D=img.data;
+  for(let i=0;i<w;i++){const c=fn(380+(i+.5)/w*320);for(let j=0;j<h;j++){const k=(j*w+i)*4;D[k]=c[0]*255;D[k+1]=c[1]*255;D[k+2]=c[2]*255;D[k+3]=255}}g.putImageData(img,0,0)}
+
+/* ===================== Evidências e retorno ===================== */
+function markEval(act,m){const spec=SPEC[act];
+  if(m.el==='?'){const l=spec.lines.find(l=>Math.abs(l.wl-m.wl)<=1);
+    if(!l)return{k:'fraca',w:'Não há uma linha clara nessa posição; pode ser ruído da placa.'};
+    if(!avail(act,l.el)||!CAT[act].includes(l.el))return{k:'forte',w:'Ótima observação: nenhum espectro disponível no catálogo explica essa linha.'};
+    return{k:'fraca',w:'Há um elemento disponível no catálogo com linha nessa posição. Confira de novo.'}}
+  const near=spec.lines.filter(l=>Math.abs(l.wl-m.wl)<=1);
+  const elHas=ELEMENTS[m.el].linhas.some(([w])=>Math.abs(w-m.wl)<=1);
+  if(!near.length)return{k:'fraca',w:'Não há uma linha clara nessa posição; pode ser ruído da placa.'};
+  if(!elHas)return{k:'erro',w:`${ELEMENTS[m.el].nome} não tem linha de referência perto de ${fmt(m.wl)} nm. Confira o catálogo.`};
+  if(near.some(l=>l.el===m.el))return{k:'forte',w:'A posição coincide com uma linha de referência do elemento.'};
+  return{k:'ambigua',w:`A posição coincide, mas as outras linhas de ${ELEMENTS[m.el].nome} aparecem na placa? Uma coincidência isolada não confirma um elemento.`}}
+function markText(m){return m.el==='?'?`Linha em ${fmt(m.wl)} nm não corresponde a nenhum elemento do catálogo.`:`Linha em ${fmt(m.wl)} nm coincide com uma linha de ${ELEMENTS[m.el].nome} (${symOf(m.el)}).`}
+function renderEvidence(act){const box=$(`[data-ev="${act}"]`);if(!box)return;const st=S[act];
+  const fixed=FIXED_EV[act].map(f=>({id:f.id,t:f.t,src:'Observação'}));
+  const marks=(st.marks||[]).filter(m=>m.el).map(m=>({id:'m:'+m.id,t:markText(m),src:'Sua medição no espectrômetro'}));
+  const card=e=>`<label class="ev"><input type="checkbox" value="${e.id}" ${st.ev.includes(e.id)?'checked':''}><span>${esc(e.t)}<span class="src">${e.src}</span></span></label>`;
+  let h='';if(act!=='a2'){h+=`<div class="ev-group">Suas medições</div>`+(marks.length?marks.map(card).join(''):'<div class="empty">Associe linhas da tabela a elementos para que elas apareçam aqui como evidência.</div>')}
+  h+=`<div class="ev-group">Observações e afirmações</div>`+fixed.map(card).join('');
+  box.innerHTML=h;$$('input',box).forEach(i=>i.onchange=()=>{st.ev=$$('input:checked',box).map(x=>x.value);save()})}
+function renderElChips(act){const box=$(`[data-els="${act}"]`);const st=S[act];
+  box.innerHTML=CAT[act].filter(s=>avail(act,s)).map(s=>`<label class="chip"><input type="checkbox" value="${s}" ${st.els.includes(s)?'checked':''}> <b>${symOf(s)}</b> ${ELEMENTS[s].nome}</label>`).join('');
+  $$('input',box).forEach(i=>i.onchange=()=>{st.els=$$('input:checked',box).map(x=>x.value);save()})}
+const KLABEL={forte:['ok','Evidência forte'],ambigua:['mid','Evidência ambígua'],fraca:['mid','Evidência fraca'],irrelevante:['mid','Não ajuda nesta conclusão'],refutada:['no','Contrariada pelos dados'],erro:['no','Associação incorreta']};
+function evidenceFeedback(act){const st=S[act],out=[];
+  if(!st.ev.length){out.push(['no','Você não selecionou nenhuma evidência. Uma conclusão científica precisa estar apoiada em observações.']);return out}
+  for(const id of st.ev){let t,r;
+    if(id.startsWith('m:')){const m=st.marks.find(x=>'m:'+x.id===id);if(!m||!m.el)continue;t=markText(m);r=markEval(act,m)}
+    else{const f=FIXED_EV[act].find(x=>x.id===id);if(!f)continue;t=f.t;r={k:f.k,w:f.w}}
+    const [cls,lab]=KLABEL[r.k];out.push([cls,`<b>${lab}:</b> “${esc(t)}” ${esc(r.w)}`])}
+  const unused=FIXED_EV[act].filter(f=>f.k==='forte'&&!st.ev.includes(f.id)).length;
+  if(unused)out.push(['info',`Há ${unused} observação(ões) forte(s) que você não usou. Releia a lista: alguma reforçaria seu argumento?`]);
+  return out}
+function elementFeedback(act){const st=S[act],spec=SPEC[act],out=[],missing=[];
+  for(const s of CAT[act]){const present=TRUE[act].includes(s),chosen=st.els.includes(s),E=ELEMENTS[s];
+    const n=st.marks.filter(m=>m.el===s&&spec.lines.some(l=>l.el===s&&Math.abs(l.wl-m.wl)<=1)).length;
+    if(chosen&&present)out.push(['ok',`<b>${E.nome}</b>: consistente com a placa. ${n?`Você registrou ${n} linha(s) dele como evidência.`:'Mas você não registrou nenhuma linha dele na tabela. Marque-as para fortalecer o argumento.'}`]);
+    else if(chosen&&!present){const top=[...E.linhas].sort((a,b)=>b[1]-a[1])[0][0];out.push(['no',`<b>${E.nome}</b>: se estivesse presente, a linha mais intensa dele deveria aparecer em ${fmt(top)} nm. Ela está na placa? Use a projeção para conferir.`])}
+    else if(!chosen&&present)missing.push(s)}
+  for(const s of missing){const l=spec.lines.filter(l=>l.el===s).sort((a,b)=>b.a-a.a)[0];
+    if(!avail(act,s))out.push(['mid',`Há linhas intensas perto de ${Math.round(l.wl/5)*5} nm que nenhum espectro do catálogo explica. Registre-as como desconhecidas e consulte o arquivo de dados.`]);
+    else out.push(['mid',`Ainda há linhas sem explicação perto de ${Math.round(l.wl/5)*5} nm. ${spec.type==='emission'&&l.a<.2?'São fracas: tente aumentar a exposição. ':''}Que elemento do catálogo poderia produzi-las?`])}
+  const unk=st.marks.filter(m=>!m.el).length;if(unk)out.push(['info',`${unk} linha(s) da sua tabela ainda não têm elemento associado.`]);
+  if(!st.hip.trim())out.push(['info','Escreva sua hipótese com suas palavras: ela vai para o seu caderno.']);
+  return out}
+function keywordFeedback(text,checks){const t=norm(text),out=[];if(t.trim().length<20){out.push(['no','Sua explicação está muito curta. Use suas medições para construir um argumento.']);return out}
+  const has=checks.filter(c=>c.re.test(t)),miss=checks.filter(c=>!c.re.test(t));
+  if(has.length)out.push(['ok',`Sua explicação aborda: ${has.map(c=>c.lab).join('; ')}.`]);
+  if(miss.length)out.push(['mid',`Considere incluir: ${miss.map(c=>c.lab).join('; ')}.`]);return out}
+function renderFb(act,items){$(`[data-fb="${act}"]`).innerHTML=items.map(([c,h])=>`<li class="${c}"><span>${h}</span></li>`).join('')}
+function sectionHead(t){return['info',`<b>${t}</b>`]}
+
+function submit(act){const st=S[act];let items=[];
+  if(act==='a1'||act==='a3'){
+    if(!st.els.length){toast('Escolha pelo menos um elemento');return}
+    items.push(sectionHead('Composição'),...elementFeedback(act));
+    if(act==='a3'){items.push(sectionHead('Sua explicação para as linhas'),...keywordFeedback(st.exp,[
+      {re:/atomo|eletron/,lab:'os átomos e seus elétrons'},{re:/nive|energia/,lab:'níveis de energia'},
+      {re:/emit|emiss|libera/,lab:'emissão de luz'},{re:/absorv|absorc/,lab:'absorção de luz'},
+      {re:/mesm|igua|coincid/,lab:'por que as linhas ficam nas mesmas posições'},{re:/atras|fundo|diante|frente|fonte|ultraviolet/,lab:'de onde vem a luz ou a energia em cada caso'}]))}
+  }else{
+    const rows=S.a2.rows;let filled=0;items.push(sectionHead('Temperaturas'));
+    for(const s of STARS){const r=rows[s.id]||{},T=num(r.T),lam=numDec(r.lam),tl=WIEN/s.T;
+      if(!isFinite(T)){items.push(['no',`Estrela ${s.id}: falta a temperatura calculada.`]);continue}filled++;
+      const err=Math.abs(T-s.T)/s.T;
+      if(err<=.1)items.push(['ok',`Estrela ${s.id}: ${fmtInt(T)} K. Medida consistente com a curva.`]);
+      else if(err<=.3)items.push(['mid',`Estrela ${s.id}: ${fmtInt(T)} K. Perto, mas o pico parece estar mais ${tl<(isFinite(lam)?lam:WIEN/T)?'à esquerda (λ menor)':'à direita (λ maior)'}. Use a escala normalizada e os botões ‹ › para refinar.`]);
+      else items.push(['no',`Estrela ${s.id}: ${fmtInt(T)} K está longe do esperado. O pico pode estar fora do visível? A conta T = b ÷ λ foi feita com λ em nm?`]);
+      if(isFinite(lam)&&Math.abs(lam*T/WIEN-1)>.05)items.push(['info',`Estrela ${s.id}: seus valores de λ e T não satisfazem λ·T = b. Revise a conta.`])}
+    if(!filled){toast('Preencha a tabela de medições primeiro');return}
+    const rk=S.a2.rank;items.push(sectionHead('Ordem de temperatura'));
+    if(rk.some(x=>!x))items.push(['no','Complete a ordem das cinco estrelas.']);
+    else if(new Set(rk).size<5)items.push(['no','Cada estrela deve aparecer uma só vez na ordem.']);
+    else if(rk.every((x,i)=>x===RANK_TRUE[i]))items.push(['ok','Ordem correta, da mais quente para a mais fria.']);
+    else items.push(['mid',`A ordem tem ${rk.filter((x,i)=>x!==RANK_TRUE[i]).length} posição(ões) trocada(s). Compare os valores de λmáx: quem tem o menor?`]);
+    items.push(sectionHead('Sua explicação'),...keywordFeedback(S.a2.exp,[
+      {re:/temperatura|quente|fri/,lab:'a temperatura'},{re:/pico|maxim|lambda|λ|comprimento de onda/,lab:'o deslocamento do pico (λmáx)'},
+      {re:/ultraviolet|infravermelh|\buv\b|\biv\b/,lab:'regiões fora do visível'},{re:/energia|intens|emite mais/,lab:'a quantidade de energia emitida'},{re:/cor|azul|vermelh/,lab:'a relação com a cor da estrela'}]))}
+  items.push(sectionHead('Evidências selecionadas'),...evidenceFeedback(act));
+  st.sub=(st.sub||0)+1;renderFb(act,items);$(`#${act}-r`).hidden=false;$(`#${act}-f`).hidden=false;save();
+  $(`#${act}-r`).scrollIntoView({behavior:'smooth',block:'start'})}
+
+/* ===================== Caso 2: curvas de Planck ===================== */
+const starColor=s=>kelvinRGB(s.T);
+class PlanckPlot{
+  constructor(host,o){this.o=o;this.cur=STARS[0];this.cmp=false;this.log=false;this.x=500;
+    host.classList.add('instrument');
+    host.innerHTML=`<div class="tb"><div class="seg"><button data-sc="lin" class="on">Normalizada</button><button data-sc="log">Energia real (log)</button></div>
+      <label><input type="checkbox" data-cmp> Sobrepor todas</label>
+      <div class="tb-g" aria-label="Ajuste fino do cursor"><button data-n="-10">«</button><button data-n="-1">‹</button><button data-n="1">›</button><button data-n="10">»</button></div>
+      <button data-rec class="on">📌 Registrar λ do cursor</button></div>
+      <div class="cv-wrap"><canvas tabindex="0" aria-label="Gráfico de intensidade por comprimento de onda"></canvas></div>
+      <div class="readout"><span data-ro></span><span class="hint">Arraste no gráfico para mover o cursor.</span></div>`;
+    this.cv=$('canvas',host);this.ro=$('[data-ro]',host);this.rec=$('[data-rec]',host);
+    $$('[data-sc]',host).forEach(b=>b.onclick=()=>{this.log=b.dataset.sc==='log';$$('[data-sc]',host).forEach(x=>x.classList.toggle('on',x===b));this.render()});
+    $('[data-cmp]',host).onchange=e=>{this.cmp=e.target.checked;this.render()};
+    $$('[data-n]',host).forEach(b=>b.onclick=()=>{this.x=Math.max(100,Math.min(2000,this.x+ +b.dataset.n));this.render()});
+    this.rec.onclick=()=>{o.onRecord(this.cur.id,Math.round(this.x))};
+    const set=e=>{const r=this.cv.getBoundingClientRect(),x=e.clientX-r.left;this.x=Math.round(Math.max(100,Math.min(2000,this.wlAt(x))));this.render()};
+    this.cv.addEventListener('pointerdown',e=>{this.dragging=true;try{this.cv.setPointerCapture(e.pointerId)}catch(_){}set(e)});
+    this.cv.addEventListener('pointermove',e=>{if(this.dragging)set(e)});
+    this.cv.addEventListener('pointerup',()=>this.dragging=false);
+    this.cv.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){this.x=Math.max(100,this.x-(e.shiftKey?10:1));this.render();e.preventDefault()}if(e.key==='ArrowRight'){this.x=Math.min(2000,this.x+(e.shiftKey?10:1));this.render();e.preventDefault()}});
+    new ResizeObserver(()=>this.render()).observe($('.cv-wrap',host))}
+  select(s){this.cur=s;this.render()}
+  wlAt(x){return 100+(x-this.L.padL)/this.L.pw*1900}
+  xOf(w){return this.L.padL+(w-100)/1900*this.L.pw}
+  render(){const W=this.cv.parentElement.clientWidth;if(W<60)return;const d=Math.min(2,devicePixelRatio||1);
+    const L=this.L={padL:W<520?46:58,padR:14,W,top:14,ph:230};L.pw=W-L.padL-L.padR;const H=L.top+L.ph+100;
+    this.cv.width=Math.round(W*d);this.cv.height=Math.round(H*d);this.cv.style.height=H+'px';
+    const g=this.cv.getContext('2d');g.setTransform(d,0,0,d,0,0);g.fillStyle='#05070d';g.fillRect(0,0,W,H);
+    const yb=L.top+L.ph;
+    // regiões
+    g.fillStyle='rgba(140,90,255,.12)';g.fillRect(this.xOf(100),L.top,this.xOf(380)-this.xOf(100),L.ph);
+    g.fillStyle='rgba(255,90,60,.08)';g.fillRect(this.xOf(700),L.top,this.xOf(2000)-this.xOf(700),L.ph);
+    for(let x=Math.floor(this.xOf(380));x<this.xOf(700);x++){const c=wlToRGB(this.wlAt(x+.5));g.fillStyle=`rgba(${c.map(v=>v*255|0).join(',')},.16)`;g.fillRect(x,L.top,1,L.ph)}
+    g.font='11px "Atkinson Hyperlegible",system-ui,sans-serif';g.textBaseline='top';g.textAlign='center';g.fillStyle='#b9a8ff';g.fillText('Ultravioleta',(this.xOf(100)+this.xOf(380))/2,L.top+4);
+    g.fillStyle='#e8eef9';g.fillText('Visível',(this.xOf(380)+this.xOf(700))/2,L.top+4);g.fillStyle='#ff9f8a';g.fillText('Infravermelho',(this.xOf(700)+this.xOf(2000))/2,L.top+4);
+    // eixos
+    g.strokeStyle='rgba(150,165,200,.25)';g.fillStyle='#9aa6c2';g.textBaseline='top';
+    for(let w=200;w<=2000;w+=200){const x=this.xOf(w)+.5;g.beginPath();g.moveTo(x,L.top);g.lineTo(x,yb);g.stroke();g.fillText(fmtInt(w),x,yb+5)}
+    g.fillText('comprimento de onda (nm)',L.padL+L.pw/2,yb+20);
+    const Bmax=s=>planck(WIEN/s.T,s.T),globalMax=Math.max(...STARS.map(Bmax));
+    const yOf=(B,s)=>{if(!this.log)return yb-(B/Bmax(s))/1.08*L.ph;const v=Math.log10(B/globalMax);return yb-((Math.max(-4.2,v)+4.2)/4.4)*L.ph};
+    g.textAlign='right';g.textBaseline='middle';
+    if(!this.log){for(const v of [0,.5,1]){const y=yb-v/1.08*L.ph;g.beginPath();g.moveTo(L.padL,y);g.lineTo(L.padL+L.pw,y);g.stroke();g.fillText(fmt(v,1),L.padL-6,y)}}
+    else{const lab=['1/10.000','1/1.000','1/100','1/10','1'];[-4,-3,-2,-1,0].forEach((v,i)=>{const y=yb-((v+4.2)/4.4)*L.ph;g.beginPath();g.moveTo(L.padL,y);g.lineTo(L.padL+L.pw,y);g.stroke();if(W>=520)g.fillText(lab[i],L.padL-4,y)})}
+    const list=this.cmp?STARS:[this.cur];
+    for(const s of list){const isCur=s===this.cur;g.beginPath();for(let x=L.padL;x<=L.padL+L.pw;x+=1){const w=this.wlAt(x),y=yOf(planck(w,s.T),s);x===L.padL?g.moveTo(x,y):g.lineTo(x,y)}
+      g.strokeStyle=starColor(s);g.globalAlpha=isCur?1:.55;g.lineWidth=isCur?2.4:1.3;g.stroke();g.globalAlpha=1;
+      if(this.cmp){const pw=Math.max(110,Math.min(1990,WIEN/s.T)),x=this.xOf(pw)+(s.id==='D'?8:0),y=yOf(planck(WIEN/s.T,s.T),s)-10;g.fillStyle=starColor(s);g.textAlign='center';g.font='700 12px "Atkinson Hyperlegible",system-ui,sans-serif';g.fillText(s.id,x,Math.max(L.top+18,y))}}
+    // cursor
+    const cx=this.xOf(this.x),B=planck(this.x,this.cur.T),cy=yOf(B,this.cur);
+    g.strokeStyle='#ffe296';g.lineWidth=1.2;g.beginPath();g.moveTo(cx+.5,L.top);g.lineTo(cx+.5,yb);g.stroke();
+    g.fillStyle='#ffe296';g.beginPath();g.arc(cx,cy,5,0,7);g.fill();
+    // faixa visível da estrela
+    const sy=yb+44,sh=30;g.font='11px "Atkinson Hyperlegible",system-ui,sans-serif';g.textAlign='left';g.textBaseline='bottom';g.fillStyle='#c9d3ea';
+    g.fillText(`Luz visível da estrela ${this.cur.id} (380 a 700 nm, ampliada)`,L.padL,sy-4);
+    const Bm=Bmax(this.cur);for(let i=0;i<Math.ceil(L.pw);i++){const w=380+(i+.5)/L.pw*320,b=Math.pow(planck(w,this.cur.T)/Bm,.7),c=wlToRGB(w);g.fillStyle=`rgb(${c.map(v=>Math.min(255,v*b*255)|0).join(',')})`;g.fillRect(L.padL+i,sy,1.5,sh)}
+    if(this.x>=380&&this.x<=700){const xx=L.padL+(this.x-380)/320*L.pw;g.fillStyle='#ffe296';g.fillRect(xx-1,sy-3,2,sh+6)}
+    const reg=this.x<380?'ultravioleta':this.x>700?'infravermelho':'visível';
+    const rel=this.log?`${fmt(B/globalMax*100,3)}% do máximo entre todas as estrelas`:`${fmt(B/Bm,2)} do pico desta estrela`;
+    this.ro.textContent=`Estrela ${this.cur.id} · λ = ${fmtInt(this.x)} nm (${reg}) · intensidade = ${rel}`;
+    this.rec.textContent=`📌 Registrar ${fmtInt(this.x)} nm como pico da estrela ${this.cur.id}`}
+}
+class WienPlot{
+  constructor(host){this.T=5800;host.classList.add('instrument');host.innerHTML=`<div class="cv-wrap"><canvas tabindex="0" aria-label="Diagrama de Wien"></canvas></div><div class="readout"><span data-ro></span></div>`;
+    this.cv=$('canvas',host);this.ro=$('[data-ro]',host);
+    const set=e=>{const r=this.cv.getBoundingClientRect(),x=e.clientX-r.left;this.T=Math.round(Math.max(2000,Math.min(20000,this.TAt(x)))/50)*50;this.render()};
+    this.cv.addEventListener('pointerdown',e=>{this.dr=true;try{this.cv.setPointerCapture(e.pointerId)}catch(_){}set(e)});
+    this.cv.addEventListener('pointermove',e=>{if(this.dr)set(e)});this.cv.addEventListener('pointerup',()=>this.dr=false);
+    this.cv.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){this.T=Math.max(2000,this.T-100);this.render()}if(e.key==='ArrowRight'){this.T=Math.min(20000,this.T+100);this.render()}});
+    new ResizeObserver(()=>this.render()).observe($('.cv-wrap',host))}
+  TAt(x){return 2000+(x-this.L.padL)/this.L.pw*18000}
+  render(){const W=this.cv.parentElement.clientWidth;if(W<60)return;const d=Math.min(2,devicePixelRatio||1),H=280;
+    const L=this.L={padL:50,padR:14,top:12,ph:226,W};L.pw=W-L.padL-L.padR;
+    this.cv.width=Math.round(W*d);this.cv.height=Math.round(H*d);this.cv.style.height=H+'px';
+    const g=this.cv.getContext('2d');g.setTransform(d,0,0,d,0,0);g.fillStyle='#05070d';g.fillRect(0,0,W,H);
+    const xT=T=>L.padL+(T-2000)/18000*L.pw,yL=l=>L.top+L.ph-(l/1500)*L.ph,yb=L.top+L.ph;
+    for(let l=380;l<700;l+=2){const c=wlToRGB(l+1);g.fillStyle=`rgba(${c.map(v=>v*255|0).join(',')},.22)`;g.fillRect(L.padL,yL(l+2),L.pw,yL(l)-yL(l+2)+.5)}
+    g.strokeStyle='rgba(150,165,200,.25)';g.fillStyle='#9aa6c2';g.font='10.5px "Atkinson Hyperlegible",system-ui,sans-serif';
+    g.textAlign='center';g.textBaseline='top';for(let T=2000;T<=20000;T+=3000){const x=xT(T)+.5;g.beginPath();g.moveTo(x,L.top);g.lineTo(x,yb);g.stroke();g.fillText(fmtInt(T),x,yb+4)}
+    g.fillText('temperatura (K)',L.padL+L.pw/2,yb+18);
+    g.textAlign='right';g.textBaseline='middle';for(let l=0;l<=1500;l+=300){const y=yL(l)+.5;g.beginPath();g.moveTo(L.padL,y);g.lineTo(L.padL+L.pw,y);g.stroke();g.fillText(String(l),L.padL-5,y)}
+    g.save();g.translate(12,L.top+L.ph/2);g.rotate(-Math.PI/2);g.textAlign='center';g.fillText('λmáx (nm)',0,0);g.restore();
+    g.textAlign='left';g.fillStyle='#b9a8ff';g.fillText('ultravioleta',L.padL+L.pw-70,yL(220));g.fillStyle='#ff9f8a';g.fillText('infravermelho',L.padL+L.pw-80,yL(900));
+    g.beginPath();for(let x=L.padL;x<=L.padL+L.pw;x++){const T=this.TAt(x),y=yL(WIEN/T);x===L.padL?g.moveTo(x,Math.max(L.top,y)):g.lineTo(x,Math.max(L.top,y))}g.strokeStyle='#e8eef9';g.lineWidth=1.8;g.stroke();
+    // pontos do estudante
+    g.font='700 11px "Atkinson Hyperlegible",system-ui,sans-serif';
+    for(const s of STARS){const r=S.a2.rows[s.id]||{},T=num(r.T),l=numDec(r.lam);if(isFinite(T)&&isFinite(l)&&T>=2000&&T<=20000&&l<=1500){const x=xT(T),y=yL(l);g.fillStyle=starColor(s);g.beginPath();g.arc(x,y,5,0,7);g.fill();g.fillStyle='#fff';g.textAlign='left';g.fillText(s.id,x+7,y-7)}}
+    const lam=WIEN/this.T,x=xT(this.T),y=yL(lam);g.fillStyle='#ffd34d';g.beginPath();g.arc(x,y,7,0,7);g.fill();g.strokeStyle='#05070d';g.lineWidth=2;g.stroke();
+    const gr=g.createRadialGradient(W-40,40,2,W-40,40,26);gr.addColorStop(0,'#fff');gr.addColorStop(.35,kelvinRGB(this.T));gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.beginPath();g.arc(W-40,40,26,0,7);g.fill();
+    this.ro.textContent=`T = ${fmtInt(this.T)} K  →  λmáx = ${fmtInt(lam)} nm (${lam<380?'ultravioleta':lam>700?'infravermelho':'visível'})`}
+}
+function buildA2(){
+  const sb=$('[data-stars]');
+  sb.innerHTML=STARS.map(s=>`<button class="star-btn" data-star="${s.id}"><div class="glow" style="background:radial-gradient(circle,#fff 0 12%,${starColor(s)} 38%,transparent 70%)"></div><b>Estrela ${s.id}</b><br><small>placa 2-${s.id}</small></button>`).join('');
+  const pp=new PlanckPlot($('[data-planck]'),{onRecord:(id,w)=>{const r=S.a2.rows[id]||(S.a2.rows[id]={lam:'',T:''});r.lam=String(w);renderT2();wien.render();save();toast(`λmáx = ${w} nm registrado para a estrela ${id}`)}});
+  const wien=new WienPlot($('[data-wien]'));
+  const sel=id=>{$$('.star-btn').forEach(b=>b.classList.toggle('on',b.dataset.star===id));pp.select(STARS.find(s=>s.id===id))};
+  $$('.star-btn').forEach(b=>b.onclick=()=>sel(b.dataset.star));sel('A');
+  function renderT2(){const tb=$('[data-t2]');
+    tb.innerHTML=STARS.map(s=>{const r=S.a2.rows[s.id]||{},l=numDec(r.lam);const reg=isFinite(l)?(l<380?'ultravioleta':l>700?'infravermelho':'visível'):'—';
+      return `<tr><td><b>${s.id}</b></td><td><span class="sw" style="background:${starColor(s)};color:${starColor(s)}"></span></td><td><input data-lam="${s.id}" inputmode="decimal" value="${esc(r.lam||'')}" aria-label="λmáx da estrela ${s.id}"></td><td>${reg}</td><td><input data-t="${s.id}" inputmode="decimal" value="${esc(r.T||'')}" aria-label="Temperatura da estrela ${s.id}"></td></tr>`}).join('');
+    $$('input',tb).forEach(i=>i.onchange=()=>{const id=i.dataset.lam||i.dataset.t;const r=S.a2.rows[id]||(S.a2.rows[id]={lam:'',T:''});if(i.dataset.lam)r.lam=i.value;else r.T=i.value;renderT2();wien.render();save()})}
+  renderT2();
+  const cl=$('[data-cl]'),ct=$('[data-ct]'),ci=$('[data-ctin]'),co=$('[data-clo]'),cs=$('[data-cs]');
+  cl.oninput=()=>{const l=numDec(cl.value);if(l>0){const T=WIEN/l;ct.textContent=`T ≈ ${fmtInt(T)} K`;cs.textContent=`T = 2.898.000 ÷ ${fmtInt(l)} = ${fmtInt(T)} K`}else{ct.textContent='T = ?';cs.textContent=''}};
+  ci.oninput=()=>{const T=numDec(ci.value);if(T>0){const l=WIEN/T;co.textContent=`λmáx ≈ ${fmtInt(l)} nm`;cs.textContent=`λmáx = 2.898.000 ÷ ${fmtInt(T)} = ${fmtInt(l)} nm`}else{co.textContent='λmáx = ?';cs.textContent=''}};
+  const rk=$('[data-rank]');rk.innerHTML=S.a2.rank.map((v,i)=>`<label>${i+1}º <select data-rk="${i}" aria-label="Posição ${i+1}"><option value="">—</option>${STARS.map(s=>`<option ${v===s.id?'selected':''}>${s.id}</option>`).join('')}</select></label>${i<4?'<span aria-hidden="true">›</span>':''}`).join('');
+  $$('select',rk).forEach(s=>s.onchange=()=>{S.a2.rank[+s.dataset.rk]=s.value;save()});
+  $('[data-ans2]').innerHTML=[...STARS].sort((a,b)=>b.T-a.T).map(s=>`<tr><td><span class="sw" style="background:${starColor(s)};color:${starColor(s)}"></span> ${s.id}</td><td>${fmtInt(WIEN/s.T)} nm</td><td>${fmtInt(s.T)} K</td></tr>`).join('');
+}
+
+/* ===================== Caso 3: bancada de Kirchhoff ===================== */
+function buildKir(){const host=$('[data-kir]');
+  host.innerHTML=`<svg viewBox="0 0 520 250" role="img" aria-label="Estrela, nuvem de gás e dois telescópios">
+    <defs><radialGradient id="kst"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#ffe7a8"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+    <rect x="0" y="0" width="520" height="250" rx="10" fill="#05070d"/>
+    <g data-k-star><circle cx="70" cy="105" r="52" fill="url(#kst)"/><text x="70" y="178" fill="#e8eef9" font-size="13" text-anchor="middle">fonte quente e densa</text></g>
+    <g data-k-rays stroke="#ffe7a8" stroke-opacity=".35" stroke-width="2"><line x1="122" y1="105" x2="190" y2="105"/><line x1="118" y1="80" x2="196" y2="70"/><line x1="118" y1="130" x2="196" y2="140"/></g>
+    <g data-k-cloud><ellipse cx="262" cy="105" rx="70" ry="48" fill="#7fb3e6" fill-opacity=".22" stroke="#7fb3e6" stroke-opacity=".6" stroke-dasharray="4 4"/>
+      <g fill="#bcd8f5">${Array.from({length:22},(_,i)=>`<circle cx="${210+hash(i*3)*104|0}" cy="${74+hash(i*7+1)*62|0}" r="2"/>`).join('')}</g>
+      <text x="262" y="40" fill="#bcd8f5" font-size="13" text-anchor="middle" data-k-gasname>nuvem de hidrogênio rarefeito</text>
+      <text x="320" y="72" font-size="20" data-k-bolt>⚡</text></g>
+    <line x1="140" y1="105" x2="440" y2="105" stroke="#ffe296" stroke-dasharray="3 5" stroke-opacity=".7"/>
+    <line x1="262" y1="60" x2="262" y2="200" stroke="#ffe296" stroke-dasharray="3 5" stroke-opacity=".7"/>
+    <g transform="translate(450 92)"><rect width="52" height="26" rx="5" fill="#2a3654"/><rect x="-8" y="5" width="10" height="16" fill="#4f5d7f"/><text x="26" y="45" fill="#ffe296" font-size="14" text-anchor="middle">A</text></g>
+    <g transform="translate(249 205)"><rect width="26" height="34" rx="5" fill="#2a3654"/><rect x="5" y="-8" width="16" height="10" fill="#4f5d7f"/><text x="44" y="24" fill="#ffe296" font-size="14">B</text></g>
+  </svg>
+  <div class="chips" style="margin-top:10px">
+    <label class="chip"><input type="checkbox" data-k="star" checked> Fonte quente ligada</label>
+    <label class="chip"><input type="checkbox" data-k="cloud" checked> Nuvem de gás</label>
+    <label class="chip"><input type="checkbox" data-k="zap"> Descarga elétrica no gás</label>
+    <label class="chip">Gás: <select data-k="gas" style="border:0;background:none"><option value="H">hidrogênio</option><option value="He">hélio</option><option value="Na">sódio</option></select></label>
+  </div>
+  <div class="kir-out"><div><span>Telescópio A<br><small>olha através da nuvem, para a fonte</small></span><canvas width="640" height="30" data-ka></canvas></div>
+  <div><span>Telescópio B<br><small>olha a nuvem de lado, céu escuro atrás</small></span><canvas width="640" height="30" data-kb></canvas></div></div>`;
+  const get=k=>$(`[data-k="${k}"]`,host);
+  const draw=()=>{const star=get('star').checked,cloud=get('cloud').checked,zap=get('zap').checked,gas=get('gas').value;
+    $('[data-k-star]',host).style.opacity=star?1:.12;$('[data-k-rays]',host).style.opacity=star?1:0;$('[data-k-cloud]',host).style.opacity=cloud?1:.1;$('[data-k-bolt]',host).style.opacity=zap&&cloud?1:0;
+    $('[data-k-gasname]',host).textContent=`nuvem de ${ELEMENTS[gas].nome.toLowerCase()} rarefeito`;
+    const lines=ELEMENTS[gas].linhas,gs=(wl)=>{let I=0;for(const [w,a] of lines){const d=(wl-w)/.6;if(d*d<40)I+=a*Math.exp(-.5*d*d)}return I};
+    const cont=new Spectrum({type:'continuous',T:6500});
+    const A=wl=>{const rgb=wlToRGB(wl);if(star){const c=cont.base(wl);const f=cloud?Math.max(0,1-.85*Math.min(1,gs(wl))):1;return rgb.map(v=>v*Math.min(1,c*1.1)*f)}if(cloud&&zap){const b=Math.min(1,Math.sqrt(gs(wl))*.6);return rgb.map(v=>v*b)}return[0,0,0]};
+    const B=wl=>{if(cloud&&(star||zap)){const b=Math.min(1,Math.sqrt(gs(wl)));return wlToRGB(wl).map(v=>v*b)}return[0,0,0]};
+    paintStrip($('[data-ka]',host),A);paintStrip($('[data-kb]',host),B)};
+  $$('[data-k]',host).forEach(i=>i.onchange=draw);draw()}
+
+/* ===================== Caso 3: modelo atômico ===================== */
+function buildAtom(){const host=$('[data-atom]');const E=n=>-13.6/(n*n);const yE=e=>30+(-e)/3.6*210;const yN=n=>n===1?286:yE(E(n));
+  host.innerHTML=`<div class="row" style="margin-bottom:8px"><div class="seg instrument" style="display:inline-flex;border-radius:9px"><button data-am="em" class="on">Emissão (elétron desce)</button><button data-am="ab">Absorção (elétron sobe)</button></div></div>
+  <svg viewBox="0 0 400 310" role="img" aria-label="Níveis de energia do hidrogênio"><rect width="400" height="310" rx="10" fill="#05070d"/>
+    <line x1="60" x2="250" y1="${yE(0)}" y2="${yE(0)}" stroke="#4f5d7f" stroke-dasharray="4 4"/><text x="256" y="${yE(0)+4}" fill="#8d98b2" font-size="11">0 eV: elétron escapa</text>
+    ${[2,3,4,5,6].map(n=>`<line x1="60" x2="250" y1="${yN(n)}" y2="${yN(n)}" stroke="#c9d3ea" stroke-width="1.5"/><text x="20" y="${yN(n)+4}" fill="#e8eef9" font-size="12">n=${n}</text><text x="256" y="${yN(n)+4}" fill="#8d98b2" font-size="11">${fmt(E(n),2)} eV</text>`).join('')}
+    <text x="150" y="268" fill="#4f5d7f" font-size="14" text-anchor="middle">⋮ escala interrompida ⋮</text>
+    <line x1="60" x2="250" y1="${yN(1)}" y2="${yN(1)}" stroke="#c9d3ea" stroke-width="1.5"/><text x="20" y="${yN(1)+4}" fill="#e8eef9" font-size="12">n=1</text><text x="256" y="${yN(1)+4}" fill="#8d98b2" font-size="11">−13,60 eV</text>
+    <g data-aph></g><circle class="el-dot" cx="0" cy="0" r="7" fill="#7fe0ff" data-ael style="transform:translate(150px,${yN(3)}px)"/>
+  </svg>
+  <div class="atom-btns" data-abtn></div>
+  <p class="small" data-aout style="margin-top:8px">Escolha um salto.</p>
+  <canvas width="640" height="26" data-astrip style="width:100%;height:26px;border-radius:4px;display:block;background:#000"></canvas>
+  <ol class="atom-log" data-alog></ol>`;
+  let mode='em';const log=[];const svg=$('svg',host),el=$('[data-ael]',host),ph=$('[data-aph]',host);
+  $$('[data-am]',host).forEach(b=>b.onclick=()=>{mode=b.dataset.am;$$('[data-am]',host).forEach(x=>x.classList.toggle('on',x===b));renderBtns()});
+  const T=[[3,2],[4,2],[5,2],[6,2],[2,1]];
+  function renderBtns(){$('[data-abtn]',host).innerHTML=T.map(([u,l])=>`<button class="btn ghost" data-tr="${u},${l}">${mode==='em'?`n=${u} → n=${l}`:`n=${l} → n=${u}`}</button>`).join('');
+    $$('[data-tr]',host).forEach(b=>b.onclick=()=>go(...b.dataset.tr.split(',').map(Number)))}
+  function go(u,l){const dE=E(u)-E(l),wl=1239.84/dE,vis=wl>=380&&wl<=700,c=vis?`rgb(${wlToRGB(wl).map(v=>v*255|0).join(',')})`:'#a58cff';
+    const from=mode==='em'?u:l,to=mode==='em'?l:u;const tf=n=>`translate(150px,${yN(n)}px)`;el.style.transition='none';el.style.transform=tf(from);void el.getBoundingClientRect();
+    requestAnimationFrame(()=>{el.style.transition='';el.style.transform=tf(to)});
+    const yy=(yN(u)+yN(l))/2;let d='';for(let i=0;i<=120;i++){const x=mode==='em'?160+i:40+i,y=yy+Math.sin(i/5)*6;d+=(i?'L':'M')+x+' '+y}
+    ph.innerHTML=`<path class="ph" d="${d}" stroke="${c}" stroke-width="2.5" fill="none"/><text x="${mode==='em'?285:30}" y="${yy-12}" fill="${c}" font-size="12">${mode==='em'?'fóton emitido':'fóton absorvido'}</text>`;
+    $('[data-aout]',host).innerHTML=`Diferença de energia: <b>${fmt(dE,2)} eV</b> → λ = <b>${fmt(wl,1)} nm</b> (${vis?'visível':'ultravioleta, invisível'}).`;
+    paintStrip($('[data-astrip]',host),w=>{const g=Math.exp(-.5*((w-wl)/.9)**2);const rgb=wlToRGB(w);return mode==='em'?rgb.map(v=>v*g):rgb.map(v=>v*.9*(1-.95*g))});
+    log.unshift(`${mode==='em'?'Emissão':'Absorção'} entre n=${u} e n=${l}: ${fmt(wl,1)} nm`);$('[data-alog]',host).innerHTML=log.slice(0,6).map(t=>`<li>${t}</li>`).join('')}
+  renderBtns()}
+
+/* ===================== Nebúlio / dados de Bowen ===================== */
+function setupNeb(){const st=S.a3;const msg=$('[data-unlockmsg]'),btn=$('[data-unlock]');
+  $$('[name=neb]').forEach(r=>{r.checked=st.neb===r.value;r.onchange=()=>{st.neb=r.value;save();check()}});
+  function check(){if(st.unl){$('[data-neb]').hidden=true;$('[data-bowen]').hidden=false;return}
+    const hasUnk=st.marks.some(m=>m.el==='?');btn.disabled=!(hasUnk&&st.neb);msg.textContent=!hasUnk?'Falta registrar uma linha como desconhecida.':!st.neb?'Escolha uma hipótese inicial.':''}
+  btn.onclick=()=>{st.unl=true;save();check();labs.a3.renderCatalog();labs.a3.renderMarks();renderElChips('a3');renderEvidence('a3');toast('Novos espectros adicionados ao catálogo')};
+  setupNeb.check=check;check()}
+
+/* ===================== Etapas, abas, caderno ===================== */
+const STEP_NAMES=['Problema','Investigação','Hipótese','Retorno','Reflexão'],STEP_IDS=['p','i','h','r','f'];
+function stepDone(act,i){const st=S[act];
+  if(i===0)return true;
+  if(i===1)return act==='a2'?Object.values(st.rows).filter(r=>r.lam).length>=3:st.marks.length>=3;
+  if(i===2)return st.sub>0;if(i===3)return st.sub>0;return st.r.some(x=>x.trim())}
+function updateSteps(){for(const act of ['a1','a2','a3']){const ol=$(`[data-steps="${act}"]`);
+  ol.innerHTML=STEP_NAMES.map((n,i)=>{const locked=(i>=3)&&!S[act].sub;return `<li class="${stepDone(act,i)?'done':''} ${locked?'lock':''}"><button data-goto="${act}-${STEP_IDS[i]}" ${locked?'disabled':''}><span>${stepDone(act,i)&&i>0?'✓':i+1}</span>${n}</button></li>`}).join('');
+  $$('[data-goto]',ol).forEach(b=>b.onclick=()=>{const t=$('#'+b.dataset.goto);if(t&&!t.hidden)t.scrollIntoView({behavior:'smooth',block:'start'})});
+  $(`[data-ck="${act}"]`).textContent=S[act].sub?' ✓':''}
+  if(setupNeb.check)setupNeb.check()}
+function showTab(id){$$('section.tab').forEach(s=>s.hidden=s.id!==id);$$('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));window.scrollTo({top:0});if(id==='caderno')renderNotebook()}
+function renderNotebook(){const L=[];const line=(t='')=>L.push(t);
+  line('CADERNO DE INVESTIGAÇÃO: LABORATÓRIO PAYNE');line('');
+  const a1=S.a1;line('CASO 1: Do que é feita esta estrela?');
+  line('Linhas registradas: '+(a1.marks.length?a1.marks.map(m=>`${fmt(m.wl)} nm${m.el?' → '+(m.el==='?'?'desconhecida':ELEMENTS[m.el].nome):''}`).join('; '):'nenhuma'));
+  line('Elementos escolhidos: '+(a1.els.map(s=>ELEMENTS[s].nome).join(', ')||'—'));line('Hipótese: '+(a1.hip||'—'));line('Justificativa: '+(a1.just||'—'));
+  ['Evidências','Outra explicação','Dado adicional'].forEach((q,i)=>line(`${q}: ${a1.r[i]||'—'}`));line('');
+  const a2=S.a2;line('CASO 2: Qual é a temperatura da estrela?');
+  STARS.forEach(s=>{const r=a2.rows[s.id]||{};line(`Estrela ${s.id}: λmáx = ${r.lam||'—'} nm; T = ${r.T||'—'} K`)});
+  line('Ordem (mais quente → mais fria): '+(a2.rank.map(x=>x||'?').join(' > ')));line('Explicação: '+(a2.exp||'—'));
+  ['Evidências','Outra explicação','Dado adicional'].forEach((q,i)=>line(`${q}: ${a2.r[i]||'—'}`));line('');
+  const a3=S.a3;line('CASO 3: O mistério da nebulosa');
+  line('Linhas registradas: '+(a3.marks.length?a3.marks.map(m=>`${fmt(m.wl)} nm${m.el?' → '+(m.el==='?'?'desconhecida':ELEMENTS[m.el].nome):''}`).join('; '):'nenhuma'));
+  line('Hipótese inicial sobre as linhas desconhecidas: '+({novo:'elemento novo',condicoes:'elemento conhecido em condições especiais',erro:'defeito da placa'}[a3.neb]||'—'));
+  line('Elementos escolhidos: '+(a3.els.map(s=>ELEMENTS[s].nome).join(', ')||'—'));line('Hipótese: '+(a3.hip||'—'));line('Explicação das linhas: '+(a3.exp||'—'));line('Justificativa: '+(a3.just||'—'));
+  ['Evidências','Outra explicação','Dado adicional'].forEach((q,i)=>line(`${q}: ${a3.r[i]||'—'}`));
+  $('#nbText').textContent=L.join('\n')}
+
+/* ===================== Herói ===================== */
+function hero(){const cv=$('#heroPlate');let hx=null;
+  const draw=()=>{const W=cv.clientWidth,H=cv.clientHeight;if(!W)return;const d=Math.min(2,devicePixelRatio||1);cv.width=W*d;cv.height=H*d;const g=cv.getContext('2d');g.setTransform(d,0,0,d,0,0);
+    for(let x=0;x<W;x++){const wl=380+(x+.5)/W*320,c=wlToRGB(wl),grain=.9+.1*vnoise(x*.7);g.fillStyle=`rgb(${c.map(v=>v*255*grain|0).join(',')})`;g.fillRect(x,0,1.2,H)}
+    if(hx!=null){const wl=380+hx/W*320;g.fillStyle='rgba(0,0,0,.65)';g.fillRect(hx-1,0,2,H);g.font='700 15px "Atkinson Hyperlegible",system-ui,sans-serif';const t=`${fmt(wl,0)} nm`,tw=g.measureText(t).width+14,bx=Math.min(W-tw-4,Math.max(4,hx-tw/2));g.fillStyle='rgba(5,7,13,.85)';g.fillRect(bx,H/2-14,tw,28);g.fillStyle='#ffe296';g.textBaseline='middle';g.fillText(t,bx+7,H/2+1)}};
+  cv.addEventListener('pointermove',e=>{hx=e.clientX-cv.getBoundingClientRect().left;draw()});cv.addEventListener('pointerleave',()=>{hx=null;draw()});
+  new ResizeObserver(draw).observe(cv)}
+
+/* ===================== Início ===================== */
+function init(){
+  try{const t=localStorage.getItem(KEY+'-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+  $('#themeBtn').onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;try{localStorage.setItem(KEY+'-theme',nx)}catch(e){}};
+  $$('nav.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+  $$('[data-go]').forEach(b=>b.onclick=()=>showTab(b.dataset.go));
+  hero();
+  buildSpecLab('a1');
+  buildSpecLab('a3',[{label:'Estrela do Caso 1 (absorção)',short:'Caso 1',spectrum:STAR1,on:false},{label:'Estrela quente vizinha (absorção)',short:'Vizinha',spectrum:HOTSTAR,on:false}]);
+  buildA2();buildKir();buildAtom();setupNeb();
+  ['a1','a3'].forEach(a=>{renderElChips(a);renderEvidence(a)});renderEvidence('a2');
+  $$('[data-bind]').forEach(t=>{t.value=getP(t.dataset.bind)||'';t.oninput=()=>{setP(t.dataset.bind,t.value);save()}});
+  $$('[data-submit]').forEach(b=>b.onclick=()=>submit(b.dataset.submit));
+  $$('[data-scroll]').forEach(b=>b.onclick=()=>$('#'+b.dataset.scroll).scrollIntoView({behavior:'smooth'}));
+  $$('[data-reveal]').forEach(b=>b.onclick=()=>{const c=$('#'+b.dataset.reveal+'-c');c.hidden=false;c.scrollIntoView({behavior:'smooth',block:'start'})});
+  $$('[data-auto]').forEach(b=>{const a=b.dataset.auto;const upd=()=>b.textContent=S[a].auto?'Desligar identificação automática':'Ligar identificação automática';upd();
+    b.onclick=()=>{S[a].auto=!S[a].auto;labs[a].spm.auto=S[a].auto;labs[a].spm.render();upd();save();if(S[a].auto){toast('Rótulos dos elementos exibidos no gráfico');$('#'+a+'-i').scrollIntoView({behavior:'smooth'})}}});
+  for(const a of ['a1','a2','a3'])if(S[a].sub){$(`#${a}-r`).hidden=false;$(`#${a}-f`).hidden=false;$(`[data-fb="${a}"]`).innerHTML='<li class="info"><span>Você já enviou uma hipótese. Envie novamente para receber um retorno atualizado.</span></li>'}
+  $('#copyNb').onclick=async()=>{renderNotebook();const t=$('#nbText').textContent;try{await navigator.clipboard.writeText(t);toast('Caderno copiado')}catch(e){const r=document.createRange();r.selectNodeContents($('#nbText'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado: use Ctrl+C')}};
+  $('#resetNb').onclick=()=>{if(confirm('Apagar todos os seus registros deste laboratório?')){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}};
+  updateSteps()}
+init();
+</script>
+</body>
+</html>
